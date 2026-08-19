@@ -1,6 +1,6 @@
 # Blazer Router
 
-A simple, "blazingly easy" path-param router for Gleam.
+A "blazingly easy" path-param router for Gleam.
 
 > Blazer at the time of writing this documentation HAS NOT BEEN PUBLISHED
 
@@ -23,19 +23,28 @@ let router =
   |> blazer.post("/users", fn(_req, _ctx, _params) {
     // create a user
   })
+  
+  //This handler is what generally gets passed into whatever server framework you are working with
+  let handler = fn(req) {
+    blazer.consume(router, request, not_found_handler)
+  }
+  
+  //Start your server
 
-// hand `router` to your server and call `blazer.consume(router, request, not_found)`
-// for each incoming request.
 ```
 
-Routes are registered with `get` / `post` / `put` / `delete` / `patch` and
-support `:param` segments, which are captured and passed to your handler as a
-dict. blazer is router-only — pair it with any HTTP server that speaks
-`gleam/http` (mist, smol, …) and have it call `consume` per request.
+Routes are registered with `get` / `post` / `put` / `delete` / `patch` and support `:param` segments, which are captured and passed to your handler as a dict. blazer is router-only — pair it with any HTTP server that speaks `gleam/http` (mist, smol, …) and have it call `consume` per request.
 
-See [Overview](./docs/overview.md) for the core concepts, and
-[With Mist](./docs/with_mist.md) / [With Smol](./docs/with_smol.md)
+See [Overview](./docs/overview.md) for the core concepts, and [With Mist](./docs/with_mist.md) / [With Smol](./docs/with_smol.md)
 for complete runnable examples.
+
+## Roadmap
+- [x] Basic Routing
+- [x] Implemented with 2 different types of servers
+- [x] Parameters are included
+- [] Middleware?
+
+This roadmap might get updated with anything else I might want to include. Anything marked with a "?" is being determined if I want to include it or not.
 
 ## Inspiration/Credit
 - [Fist Router](https://fist.hexdocs.pm/) (@MrTomatePNG)

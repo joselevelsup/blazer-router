@@ -25,7 +25,9 @@ pub fn static_route_test() {
       response.new(200) |> response.set_body("users")
     })
 
-  let resp = blazer.consume(r, req(http.Get, "/users"))
+  let resp =
+    blazer.consume(r, req(http.Get, "/users"), fn(_, _, _) { response.new(404) })
+
   assert resp.status == 200
     as "[static_route_test] Failed to get 200 from router"
   assert resp.body == "users"
@@ -41,7 +43,10 @@ pub fn param_route_test() {
       response.new(200) |> response.set_body(id)
     })
 
-  let resp = blazer.consume(r, req(http.Get, "/users/42"))
+  let resp =
+    blazer.consume(r, req(http.Get, "/users/42"), fn(_, _, _) {
+      response.new(404)
+    })
 
   assert resp.status == 200
     as "[param_route_test] Failed to get 200 from router"
@@ -59,7 +64,10 @@ pub fn nested_param_test() {
       response.new(200) |> response.set_body(id <> ":" <> pid)
     })
 
-  let resp = blazer.consume(r, req(http.Get, "/users/7/posts/9"))
+  let resp =
+    blazer.consume(r, req(http.Get, "/users/7/posts/9"), fn(_, _, _) {
+      response.new(404)
+    })
   assert resp.body == "7:9"
     as "[nested_param_test] Failed to get nested params in body"
 }
@@ -74,9 +82,15 @@ pub fn method_dispatch_test() {
       response.new(200) |> response.set_body("post")
     })
 
-  assert blazer.consume(r, req(http.Get, "/x")).body == "get"
+  assert blazer.consume(r, req(http.Get, "/x"), fn(_, _, _) {
+      response.new(404)
+    }).body
+    == "get"
     as "[method_dispatch_test] Failed to match the method to 'get'"
-  assert blazer.consume(r, req(http.Post, "/x")).body == "post"
+  assert blazer.consume(r, req(http.Post, "/x"), fn(_, _, _) {
+      response.new(404)
+    }).body
+    == "post"
     as "[method_dispatch_test] Failed to match the method to 'post'"
 }
 
@@ -114,7 +128,8 @@ pub fn with_context_test() {
       }
     })
 
-  let resp = blazer.consume(r, req(http.Get, "/users"))
+  let resp =
+    blazer.consume(r, req(http.Get, "/users"), fn(_, _, _) { response.new(404) })
 
   let assert Ok(parsed) =
     json.parse(resp.body, using: {

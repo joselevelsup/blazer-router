@@ -1,14 +1,12 @@
 import gleam/dict
 import gleam/http
 import gleam/http/request
-import gleam/http/response
 import gleam/list
 import gleam/option
 import gleam/string
 
 pub type Handler(req, res, ctx) =
-  fn(request.Request(req), ctx, option.Option(dict.Dict(String, String))) ->
-    response.Response(res)
+  fn(request.Request(req), ctx, option.Option(dict.Dict(String, String))) -> res
 
 pub type Node(req, res, ctx) {
   Node(
@@ -90,12 +88,7 @@ pub fn match(
 ) -> option.Option(
   #(Handler(req, res, ctx), option.Option(dict.Dict(String, String))),
 ) {
-  let node = walk(router.root, split_path(path), method, dict.new())
-
-  case node |> option.is_some {
-    True -> node
-    False -> walk(router.root, ["not_found"], http.Get, dict.new())
-  }
+  walk(router.root, split_path(path), method, dict.new())
 }
 
 fn walk(
@@ -143,10 +136,11 @@ fn split_path(path: String) -> List(String) {
 pub fn consume(
   router: Router(req, res, ctx),
   req: request.Request(req),
-) -> response.Response(res) {
-  let assert option.Some(#(handler, params)) =
+  not_found_handler: Handler(req, res, ctx),
+) -> res {
+  let #(handler, params) =
     match(router, req.method, req.path)
-    as "[consume] Failed to match a route"
+    |> option.unwrap(or: #(not_found_handler, option.None))
 
   handler(req, router.context, params)
 }
@@ -189,11 +183,4 @@ pub fn patch(
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
   add(router, http.Patch, path, handler)
-}
-
-pub fn not_found(
-  router: Router(req, res, ctx),
-  handler: Handler(req, res, ctx),
-) -> Router(req, res, ctx) {
-  add(router, http.Get, "not_found", handler)
 }

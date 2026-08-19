@@ -1,17 +1,20 @@
-import gleeunit
-import gleam/dict
-import gleam/option
-import gleeunit/should
 import blazer
+import gleam/dict
+import gleam/http/request
+import gleam/http/response
+import gleam/option
+import gleeunit
+import gleeunit/should
 
 pub fn main() -> Nil {
   gleeunit.main()
 }
 
 pub fn static_route_test() {
+  let req = request.new()
   let r =
-    blazer.new(Nil)
-    |> blazer.get("/users", fn(_, _, _) { "users" })
+    blazer.new(req, Nil)
+    |> blazer.get("/users", fn(_, _, _) { response.new(200) })
 
   let assert option.Some(#(handler, params)) =
     blazer.match(r, blazer.Get, "/users")
@@ -48,10 +51,8 @@ pub fn method_dispatch_test() {
     |> blazer.get("/x", fn(_, _, _) { "get" })
     |> blazer.post("/x", fn(_, _, _) { "post" })
 
-  let assert option.Some(#(h_get, _)) =
-    blazer.match(r, blazer.Get, "/x")
-  let assert option.Some(#(h_post, _)) =
-    blazer.match(r, blazer.Post, "/x")
+  let assert option.Some(#(h_get, _)) = blazer.match(r, blazer.Get, "/x")
+  let assert option.Some(#(h_post, _)) = blazer.match(r, blazer.Post, "/x")
   should.equal(h_get(Nil, Nil, option.None), "get")
   should.equal(h_post(Nil, Nil, option.None), "post")
 }

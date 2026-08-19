@@ -1,33 +1,29 @@
 import gleam/dict
+import gleam/http
+import gleam/http/request
+import gleam/http/response
 import gleam/list
 import gleam/option
 import gleam/string
 
-pub type Method {
-  Get
-  Post
-  Put
-  Delete
-  Patch
-}
-
 pub type Handler(req, res, ctx) =
-  fn(req, ctx, option.Option(dict.Dict(String, String))) -> res
+  fn(request.Request(req), ctx, option.Option(dict.Dict(String, String))) ->
+    response.Response(res)
 
 pub type Node(req, res, ctx) {
   Node(
-    handlers: dict.Dict(Method, Handler(req, res, ctx)),
+    handlers: dict.Dict(http.Method, Handler(req, res, ctx)),
     static: dict.Dict(String, Node(req, res, ctx)),
     param: option.Option(#(String, Node(req, res, ctx))),
   )
 }
 
 pub type Router(req, res, ctx) {
-  Router(root: Node(req, res, ctx), context: ctx)
+  Router(req: request.Request(req), root: Node(req, res, ctx), context: ctx)
 }
 
-pub fn new(context: ctx) -> Router(req, res, ctx) {
-  Router(root: empty_node(), context:)
+pub fn new(req: request.Request(req), context: ctx) -> Router(req, res, ctx) {
+  Router(req: req, root: empty_node(), context:)
 }
 
 fn empty_node() -> Node(req, res, ctx) {
@@ -36,7 +32,7 @@ fn empty_node() -> Node(req, res, ctx) {
 
 pub fn add(
   router: Router(req, res, ctx),
-  method: Method,
+  method: http.Method,
   path: String,
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
@@ -47,7 +43,7 @@ pub fn add(
 fn insert(
   node: Node(req, res, ctx),
   segments: List(String),
-  method: Method,
+  method: http.Method,
   handler: Handler(req, res, ctx),
 ) -> Node(req, res, ctx) {
   case segments {
@@ -85,18 +81,23 @@ fn insert(
 
 pub fn match(
   router: Router(req, res, ctx),
-  method: Method,
+  method: http.Method,
   path: String,
 ) -> option.Option(
   #(Handler(req, res, ctx), option.Option(dict.Dict(String, String))),
 ) {
-  walk(router.root, split_path(path), method, dict.new())
+  let node = walk(router.root, split_path(path), method, dict.new())
+
+  case node |> option.is_some {
+    True -> node
+    False -> walk(router.root, ["not_found"], http.Get, dict.new())
+  }
 }
 
 fn walk(
   node: Node(req, res, ctx),
   segments: List(String),
-  method: Method,
+  method: http.Method,
   params: dict.Dict(String, String),
 ) -> option.Option(
   #(Handler(req, res, ctx), option.Option(dict.Dict(String, String))),
@@ -135,12 +136,24 @@ fn split_path(path: String) -> List(String) {
   |> list.filter(fn(s) { s != "" })
 }
 
+//TODO: This is called when a request is made to the server. The router will consume the request and spit out the response
+// FIXME: What happens if match provides nothing back? How do I perform some type of failure...or am I just always expecting some type of route?
+pub fn consume(
+  router: Router(req, res, ctx),
+  req: request.Request(req),
+) -> response.Response(res) {
+  case match(router, req.method, req.path) {
+    option.None -> todo
+    option.Some -> todo
+  }
+}
+
 pub fn get(
   router: Router(req, res, ctx),
   path: String,
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
-  add(router, Get, path, handler)
+  add(router, http.Get, path, handler)
 }
 
 pub fn post(
@@ -148,7 +161,7 @@ pub fn post(
   path: String,
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
-  add(router, Post, path, handler)
+  add(router, http.Post, path, handler)
 }
 
 pub fn put(
@@ -156,7 +169,7 @@ pub fn put(
   path: String,
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
-  add(router, Put, path, handler)
+  add(router, http.Put, path, handler)
 }
 
 pub fn delete(
@@ -164,7 +177,7 @@ pub fn delete(
   path: String,
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
-  add(router, Delete, path, handler)
+  add(router, http.Delete, path, handler)
 }
 
 pub fn patch(
@@ -172,5 +185,12 @@ pub fn patch(
   path: String,
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
-  add(router, Patch, path, handler)
+  add(router, http.Patch, path, handler)
+}
+
+pub fn not_found(
+  router: Router(req, res, ctx),
+  handler: Handler(req, res, ctx),
+) -> Router(req, res, ctx) {
+  add(router, http.Get, "not_found", handler)
 }

@@ -81,16 +81,8 @@ We wrap our function in a smol server and start it. Unlike mist, smol's
 
 1. smol receives `GET /`, calls `handler` with the request.
 2. `handler` calls `blazer.consume(router, request, not_found_handler)`.
-3. blazer walks the tree and matches the root node's `Get` handler.
+3. blazer tries to find the right route that matches the request. 
 4. blazer calls `handler(req, ctx, params)` → returns the HTML response.
-5. `handler` returns it; smol sends it to the client.
+5. smol sends the response to the client.
 
-For `GET /nope`, step 3 finds no match, so `consume` calls the not-found
-handler → the "Not Found" response.
-
-## When to pick smol vs mist
-
-Reach for smol when you want the fewest moving parts and don't need peak
-throughput. Reach for mist (see [`with_mist.md`](./with_mist.md)) for a
-production-grade server — the blazer side is identical, only the server
-plumbing changes.
+For `GET /nope`, step 2 finds no match, so `consume` calls the not-found handler → the "Not Found" response.

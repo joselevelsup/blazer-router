@@ -19,11 +19,15 @@ pub type Node(req, res, ctx) {
 }
 
 pub type Router(req, res, ctx) {
-  Router(req: request.Request(req), root: Node(req, res, ctx), context: ctx)
+  Router(root: Node(req, res, ctx), context: ctx)
 }
 
-pub fn new(req: request.Request(req), context: ctx) -> Router(req, res, ctx) {
-  Router(req: req, root: empty_node(), context:)
+pub fn new_with_context(context: ctx) -> Router(req, res, ctx) {
+  Router(root: empty_node(), context:)
+}
+
+pub fn new() -> Router(req, res, Nil) {
+  Router(root: empty_node(), context: Nil)
 }
 
 fn empty_node() -> Node(req, res, ctx) {
@@ -142,10 +146,11 @@ pub fn consume(
   router: Router(req, res, ctx),
   req: request.Request(req),
 ) -> response.Response(res) {
-  case match(router, req.method, req.path) {
-    option.None -> todo
-    option.Some -> todo
-  }
+  let assert option.Some(#(handler, params)) =
+    match(router, req.method, req.path)
+    as "Failed to match a route"
+
+  handler(req, router.context, params)
 }
 
 pub fn get(

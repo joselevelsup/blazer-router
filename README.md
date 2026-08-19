@@ -29,7 +29,6 @@ pub fn main() {
     blazer.consume(router, request, not_found_handler)
   }
     
-    
   //Start your server
 }
 
@@ -44,7 +43,7 @@ for complete runnable examples.
 - [x] Basic Routing
 - [x] Implemented with 2 different types of servers
 - [x] Parameters are included
-- [] Middleware?
+- [ ] Middleware?
 
 This roadmap might get updated with anything else I might want to include. Anything marked with a "?" is being determined if I want to include it or not.
 

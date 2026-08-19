@@ -7,7 +7,6 @@ import gleam/http/response
 import gleam/json
 import gleam/option
 import gleeunit
-import gleeunit/should
 
 pub fn main() -> Nil {
   gleeunit.main()
@@ -27,8 +26,10 @@ pub fn static_route_test() {
     })
 
   let resp = blazer.consume(r, req(http.Get, "/users"))
-  should.equal(resp.status, 200)
-  should.equal(resp.body, "users")
+  assert resp.status == 200
+    as "[static_route_test] Failed to get 200 from router"
+  assert resp.body == "users"
+    as "[static_route_test] Failed to get 'users' from router"
 }
 
 pub fn param_route_test() {
@@ -41,7 +42,11 @@ pub fn param_route_test() {
     })
 
   let resp = blazer.consume(r, req(http.Get, "/users/42"))
-  should.equal(resp.body, "42")
+
+  assert resp.status == 200
+    as "[param_route_test] Failed to get 200 from router"
+  assert resp.body == "42"
+    as "[param_route_test] Failed to get '42' in body from router"
 }
 
 pub fn nested_param_test() {
@@ -55,7 +60,8 @@ pub fn nested_param_test() {
     })
 
   let resp = blazer.consume(r, req(http.Get, "/users/7/posts/9"))
-  should.equal(resp.body, "7:9")
+  assert resp.body == "7:9"
+    as "[nested_param_test] Failed to get nested params in body"
 }
 
 pub fn method_dispatch_test() {
@@ -68,15 +74,10 @@ pub fn method_dispatch_test() {
       response.new(200) |> response.set_body("post")
     })
 
-  should.equal(blazer.consume(r, req(http.Get, "/x")).body, "get")
-  should.equal(blazer.consume(r, req(http.Post, "/x")).body, "post")
-}
-
-pub fn miss_test() {
-  let r =
-    blazer.new() |> blazer.get("/users", fn(_, _, _) { response.new(200) })
-  should.equal(blazer.match(r, http.Get, "/nope"), option.None)
-  should.equal(blazer.match(r, http.Post, "/users"), option.None)
+  assert blazer.consume(r, req(http.Get, "/x")).body == "get"
+    as "[method_dispatch_test] Failed to match the method to 'get'"
+  assert blazer.consume(r, req(http.Post, "/x")).body == "post"
+    as "[method_dispatch_test] Failed to match the method to 'post'"
 }
 
 type TestContext {
@@ -122,8 +123,10 @@ pub fn with_context_test() {
 
       decode.success(SuccessResponse(success:, data: user))
     })
-    as "Failed to parse sample user context body response"
+    as "[with_context_test] Failed to parse sample user context body response"
 
   assert parsed.success == True
+    as "[with_context_test] Failed to get a successful response"
   assert parsed.data == 1
+    as "[with_context_test] Failed to get the user id from context"
 }

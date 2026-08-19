@@ -140,15 +140,13 @@ fn split_path(path: String) -> List(String) {
   |> list.filter(fn(s) { s != "" })
 }
 
-//TODO: This is called when a request is made to the server. The router will consume the request and spit out the response
-// FIXME: What happens if match provides nothing back? How do I perform some type of failure...or am I just always expecting some type of route?
 pub fn consume(
   router: Router(req, res, ctx),
   req: request.Request(req),
 ) -> response.Response(res) {
   let assert option.Some(#(handler, params)) =
     match(router, req.method, req.path)
-    as "Failed to match a route"
+    as "[consume] Failed to match a route"
 
   handler(req, router.context, params)
 }

@@ -10,26 +10,28 @@ gleam add blazer@1
 
 ```gleam
 import blazer
-import gleam/http
 
-let router =
-  blazer.new()
-  |> blazer.get("/users", fn(_req, _ctx, _params) {
-    // list all users
-  })
-  |> blazer.get("/users/:id", fn(_req, _ctx, params) {
-    // params holds the captured "id"
-  })
-  |> blazer.post("/users", fn(_req, _ctx, _params) {
-    // create a user
-  })
-  
+pub fn main() {
+  let router =
+    blazer.new()
+    |> blazer.get("/users", fn(_req, _ctx, _params) {
+      // list all users
+    })
+    |> blazer.get("/users/:id", fn(_req, _ctx, params) {
+      // params holds the captured "id"
+    })
+    |> blazer.post("/users", fn(_req, _ctx, _params) {
+      // create a user
+    })
+    
   //This handler is what generally gets passed into whatever server framework you are working with
   let handler = fn(req) {
     blazer.consume(router, request, not_found_handler)
   }
-  
+    
+    
   //Start your server
+}
 
 ```
 

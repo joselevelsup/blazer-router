@@ -55,5 +55,5 @@ This roadmap might get updated with anything else I might want to include. Anyth
 ## Questions/Feedback
 If you have any questions, feedback, or running into issues, feel free to open an issue and I will try to reach out when I can!
 
-### AI Usage
-AI was used to create most of the documentation and helped with planning out how to tackle this project. Minimal agent code was used in the codebase. I have written 95% of the code. Do with this information what you will.
+## AI Usage
+AI was used to create most of the documentation, helping out with the test suite (I wrote like 2 tests), helped with planning out how to tackle this project. Minimal agent code was used in the codebase. I have written 95% of the main code. Do with this information what you will.

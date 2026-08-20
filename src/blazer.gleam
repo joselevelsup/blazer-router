@@ -10,16 +10,24 @@ pub type Handler(req, res, ctx) =
 pub type Node(req, res, ctx) =
   tree.Node(req, res, ctx)
 
+pub type MiddlewareFunc(req, res, ctx) {
+  MiddlewareFunc(req, res, ctx, next: Handler(req, res, ctx))
+}
+
 pub type Router(req, res, ctx) {
-  Router(root: tree.Node(req, res, ctx), context: ctx)
+  Router(
+    root: tree.Node(req, res, ctx),
+    context: ctx,
+    middleware: option.Option(dict.Dict(String, MiddlewareFunc)),
+  )
 }
 
 pub fn new_with_context(context: ctx) -> Router(req, res, ctx) {
-  Router(root: tree.empty_node(), context:)
+  Router(root: tree.empty_node(), context:, middleware: option.None)
 }
 
 pub fn new() -> Router(req, res, Nil) {
-  Router(root: tree.empty_node(), context: Nil)
+  Router(root: tree.empty_node(), context: Nil, middleware: option.None)
 }
 
 pub fn add(
@@ -30,6 +38,42 @@ pub fn add(
 ) -> Router(req, res, ctx) {
   let root = tree.insert(router.root, tree.split_path(path), method, handler)
   Router(..router, root:)
+}
+
+pub fn define_middleware(
+  router: Router(req, res, ctx),
+  name: String,
+  func: MiddlewareFunc(req, res, ctx),
+) -> Router(req, res, ctx) {
+  let middleware =
+    router.middleware
+    |> option.unwrap(or: dict.new())
+    |> dict.upsert(name, fn(key) {
+      case key {
+        option.Some(current_func) -> current_func
+        option.None -> func
+      }
+    })
+
+  Router(..router, middleware: option.Some(middleware))
+}
+
+pub fn use_middleware(
+  router: Router(req, res, ctx),
+  name: String,
+  main_handler: Handler(req, res, ctx),
+) -> res {
+  let middleware_handler = case router.middleware {
+    option.Some(middleware_dict) ->
+      case dict.get(middleware_dict, name) {
+        Ok(middleware_handler) -> middleware_handler
+        Error(_) -> todo
+      }
+    option.None -> todo
+  }
+  fn(req: req, ctx: ctx, params: option.Option(dict.Dict(String, String))) -> res {
+    middleware_handler(req, ctx, handler)
+  }
 }
 
 pub fn match(

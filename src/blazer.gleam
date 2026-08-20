@@ -11,7 +11,7 @@ pub type Node(req, res, ctx) =
   tree.Node(req, res, ctx)
 
 pub type Router(req, res, ctx) {
-  Router(root: tree.Node(req, res, ctx), context: ctx)
+  Router(root: Node(req, res, ctx), context: ctx)
 }
 
 pub fn new_with_context(context: ctx) -> Router(req, res, ctx) {
@@ -29,6 +29,7 @@ pub fn add(
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
   let root = tree.insert(router.root, tree.split_path(path), method, handler)
+
   Router(..router, root:)
 }
 
@@ -39,7 +40,7 @@ pub fn match(
 ) -> option.Option(
   #(Handler(req, res, ctx), option.Option(dict.Dict(String, String))),
 ) {
-  tree.walk(router.root, tree.split_path(path), method, dict.new())
+  tree.walk(router.root, tree.split_path(path), method, option.None)
 }
 
 pub fn consume(

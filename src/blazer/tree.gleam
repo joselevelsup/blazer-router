@@ -63,14 +63,14 @@ pub fn walk(
   node: Node(req, res, ctx),
   segments: List(String),
   method: http.Method,
-  params: dict.Dict(String, String),
+  params: option.Option(dict.Dict(String, String)),
 ) -> option.Option(
   #(Handler(req, res, ctx), option.Option(dict.Dict(String, String))),
 ) {
   case segments {
     [] ->
       case dict.get(node.handlers, method) {
-        Ok(handler) -> option.Some(#(handler, param_dict(params)))
+        Ok(handler) -> option.Some(#(handler, params))
         Error(_) -> option.None
       }
     [segment, ..rest] ->
@@ -78,8 +78,18 @@ pub fn walk(
         Ok(child) -> walk(child, rest, method, params)
         Error(_) ->
           case node.param {
-            option.Some(#(name, child)) ->
-              walk(child, rest, method, dict.insert(params, name, segment))
+            option.Some(#(name, child)) -> {
+              case params {
+                option.Some(params) ->
+                  walk(
+                    child,
+                    rest,
+                    method,
+                    option.Some(dict.insert(params, name, segment)),
+                  )
+                option.None -> walk(child, rest, method, params)
+              }
+            }
             option.None -> option.None
           }
       }

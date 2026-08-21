@@ -53,7 +53,19 @@ pub fn consume(
     match(router, req.method, req.path)
     |> option.unwrap(or: #(not_found_handler, option.None))
 
-  handler(req, router.context, params |> option.unwrap(or: dict.new()))
+  echo params
+  echo handler
+
+  case handler {
+    tree.WithParams(with_params_handler) ->
+      with_params_handler(
+        req,
+        router.context,
+        params |> option.unwrap(or: dict.new()),
+      )
+    tree.WithoutParams(without_params_handler) ->
+      without_params_handler(req, router.context)
+  }
 }
 
 pub fn get(
@@ -94,4 +106,16 @@ pub fn patch(
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
   add(router, http.Patch, path, handler)
+}
+
+pub fn handler(
+  handler: fn(request.Request(req), ctx) -> res,
+) -> Handler(req, res, ctx) {
+  tree.WithoutParams(handler)
+}
+
+pub fn handler_with_params(
+  handler: fn(request.Request(req), ctx, dict.Dict(String, String)) -> res,
+) -> Handler(req, res, ctx) {
+  tree.WithParams(handler)
 }

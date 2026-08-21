@@ -4,8 +4,10 @@ import gleam/http/request
 import gleam/option
 import gleam/string
 
-pub type Handler(req, res, ctx) =
-  fn(request.Request(req), ctx, dict.Dict(String, String)) -> res
+pub type Handler(req, res, ctx) {
+  WithParams(fn(request.Request(req), ctx, dict.Dict(String, String)) -> res)
+  WithoutParams(fn(request.Request(req), ctx) -> res)
+}
 
 pub type Node(req, res, ctx) {
   Node(
@@ -87,12 +89,7 @@ pub fn walk(
                     option.Some(dict.insert(params, name, segment)),
                   )
                 option.None ->
-                  walk(
-                    child,
-                    rest,
-                    method,
-                    option.Some(dict.insert(dict.new(), name, segment)),
-                  )
+                  walk(child, rest, method, option.Some(dict.new()))
               }
             }
             option.None -> option.None

@@ -1,0 +1,221 @@
+===================================================================
+ HTTP Router Benchmark
+ Started:      Thu Aug 20 09:16:19 PM EDT 2026
+ Pattern Match Router:     http://localhost:8080
+ Blazer Router:            http://localhost:8081
+ Duration/run: 30s   Threads: 4
+ Concurrency levels: 10 50 100 500
+===================================================================
+
+>>> Warming up both servers (10s each, not recorded in results)...
+>>> Warmup complete.
+
+----- Router A (pattern match) | concurrency=10 -----
+
+[RAW OUTPUT] Router A (pattern match) | concurrency=10
+Running 30s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    81.17us   32.49us   3.99ms   94.24%
+    Req/Sec    23.39k     1.27k   25.73k    77.57%
+  Latency Distribution
+     50%   79.00us
+     75%   91.00us
+     90%  104.00us
+     99%  132.00us
+  2802182 requests in 30.10s, 359.88MB read
+  Non-2xx or 3xx responses: 934037
+Requests/sec:  93098.20
+Transfer/sec:     11.96MB
+  req/sec:      93098.20
+  latency avg:  81.17us
+  latency p50:  79.00us
+  latency p90:  104.00us
+  latency p99:  132.00us
+  non-2xx:      934037
+
+----- Router B (custom) | concurrency=10 -----
+
+[RAW OUTPUT] Router B (custom) | concurrency=10
+Running 30s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    82.54us   21.58us   1.29ms   78.29%
+    Req/Sec    22.92k     1.88k   28.12k    91.69%
+  Latency Distribution
+     50%   80.00us
+     75%   92.00us
+     90%  106.00us
+     99%  145.00us
+  2743074 requests in 30.10s, 352.30MB read
+  Non-2xx or 3xx responses: 914188
+Requests/sec:  91134.54
+Transfer/sec:     11.70MB
+  req/sec:      91134.54
+  latency avg:  82.54us
+  latency p50:  80.00us
+  latency p90:  106.00us
+  latency p99:  145.00us
+  non-2xx:      914188
+
+----- Router A (pattern match) | concurrency=50 -----
+
+[RAW OUTPUT] Router A (pattern match) | concurrency=50
+Running 30s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   313.82us  303.69us   6.79ms   94.88%
+    Req/Sec    32.47k     2.07k   42.67k    75.17%
+  Latency Distribution
+     50%  257.00us
+     75%  339.00us
+     90%  460.00us
+     99%    1.86ms
+  3876774 requests in 30.00s, 497.87MB read
+  Non-2xx or 3xx responses: 1292001
+Requests/sec: 129206.80
+Transfer/sec:     16.59MB
+  req/sec:      129206.80
+  latency avg:  313.82us
+  latency p50:  257.00us
+  latency p90:  460.00us
+  latency p99:  1.86ms
+  non-2xx:      1292001
+
+----- Router B (custom) | concurrency=50 -----
+
+[RAW OUTPUT] Router B (custom) | concurrency=50
+Running 30s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   320.65us  320.20us  13.97ms   94.90%
+    Req/Sec    31.92k     2.26k   39.18k    73.42%
+  Latency Distribution
+     50%  261.00us
+     75%  345.00us
+     90%  472.00us
+     99%    1.90ms
+  3811701 requests in 30.01s, 489.52MB read
+  Non-2xx or 3xx responses: 1270258
+Requests/sec: 127021.22
+Transfer/sec:     16.31MB
+  req/sec:      127021.22
+  latency avg:  320.65us
+  latency p50:  261.00us
+  latency p90:  320.65us
+472.00us
+  latency p99:  1.90ms
+  non-2xx:      1270258
+
+----- Router A (pattern match) | concurrency=100 -----
+
+[RAW OUTPUT] Router A (pattern match) | concurrency=100
+Running 30s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   535.09us  372.76us   8.20ms   88.77%
+    Req/Sec    33.66k     3.23k   44.41k    72.33%
+  Latency Distribution
+     50%  449.00us
+     75%  631.00us
+     90%    0.90ms
+     99%    2.05ms
+  4019611 requests in 30.02s, 516.20MB read
+  Non-2xx or 3xx responses: 1339880
+Requests/sec: 133909.45
+Transfer/sec:     17.20MB
+  req/sec:      133909.45
+  latency avg:  535.09us
+  latency p50:  449.00us
+  latency p90:  0.90ms
+  latency p99:  2.05ms
+  non-2xx:      1339880
+
+----- Router B (custom) | concurrency=100 -----
+
+[RAW OUTPUT] Router B (custom) | concurrency=100
+Running 30s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   545.66us  393.75us   8.26ms   89.52%
+    Req/Sec    33.40k     3.09k   44.07k    75.00%
+  Latency Distribution
+     50%  452.00us
+     75%  639.00us
+     90%    0.92ms
+     99%    2.20ms
+  3987983 requests in 30.02s, 512.14MB read
+  Non-2xx or 3xx responses: 1329463
+Requests/sec: 132837.06
+Transfer/sec:     17.06MB
+  req/sec:      132837.06
+  latency avg:  545.66us
+  latency p50:  452.00us
+  latency p90:  0.92ms
+  latency p99:  2.20ms
+  non-2xx:      1329463
+
+----- Router A (pattern match) | concurrency=500 -----
+
+[RAW OUTPUT] Router A (pattern match) | concurrency=500
+Running 30s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.61ms    1.64ms  57.11ms   79.14%
+    Req/Sec    34.31k     3.41k   46.91k    71.32%
+  Latency Distribution
+     50%    2.15ms
+     75%    3.33ms
+     90%    4.76ms
+     99%    8.01ms
+  4094487 requests in 30.05s, 525.82MB read
+  Non-2xx or 3xx responses: 1364938
+Requests/sec: 136264.51
+Transfer/sec:     17.50MB
+  req/sec:      136264.51
+  latency avg:  2.61ms
+  latency p50:  2.15ms
+  latency p90:  4.76ms
+  latency p99:  8.01ms
+  non-2xx:      1364938
+
+----- Router B (custom) | concurrency=500 -----
+
+[RAW OUTPUT] Router B (custom) | concurrency=500
+Running 30s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.58ms    1.85ms  94.87ms   85.77%
+    Req/Sec    34.46k     3.35k   47.33k    70.99%
+  Latency Distribution
+     50%    2.11ms
+     75%    3.24ms
+     90%    4.64ms
+     99%    7.84ms
+  4112990 requests in 30.06s, 528.20MB read
+  Non-2xx or 3xx responses: 1371105
+Requests/sec: 136844.15
+Transfer/sec:     17.57MB
+  req/sec:      136844.15
+  latency avg:  2.58ms
+  latency p50:  2.11ms
+  latency p90:  4.64ms
+  latency p99:  34.46k
+7.84ms
+  non-2xx:      1371105
+
+===================================================================
+ SUMMARY
+===================================================================
+Router                       Conns  Req/sec      Avg        p50        p90        p99        Errors  
+----------------------------------------------------------------------------------------------------
+Router A (pattern match)     10     93098.20     81.17us    79.00us    104.00us   132.00us   934037  
+Router B (custom)            10     91134.54     82.54us    80.00us    106.00us   145.00us   914188  
+Router A (pattern match)     50     129206.80    313.82us   257.00us   460.00us   1.86ms     1292001 
+Router B (custom)            50     127021.22    320.65us   261.00us   320.65us                      
+Router A (pattern match)     100    133909.45    535.09us   449.00us   0.90ms     2.05ms     1339880 
+Router B (custom)            100    132837.06    545.66us   452.00us   0.92ms     2.20ms     1329463 
+Router A (pattern match)     500    136264.51    2.61ms     2.15ms     4.76ms     8.01ms     1364938 
+Router B (custom)            500    136844.15    2.58ms     2.11ms     4.64ms     34.46k             
+
+Full log (including raw wrk output) saved to: /home/skippy/Documents/personal/simple_http/results_20260820_211619.log

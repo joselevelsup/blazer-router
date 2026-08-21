@@ -89,7 +89,12 @@ pub fn walk(
                     option.Some(dict.insert(params, name, segment)),
                   )
                 option.None ->
-                  walk(child, rest, method, option.Some(dict.new()))
+                  walk(
+                    child,
+                    rest,
+                    method,
+                    option.Some(dict.new() |> dict.insert(name, segment)),
+                  )
               }
             }
             option.None -> option.None

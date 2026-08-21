@@ -53,9 +53,6 @@ pub fn consume(
     match(router, req.method, req.path)
     |> option.unwrap(or: #(not_found_handler, option.None))
 
-  echo params
-  echo handler
-
   case handler {
     tree.WithParams(with_params_handler) ->
       with_params_handler(

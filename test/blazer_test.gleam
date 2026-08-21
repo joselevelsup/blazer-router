@@ -52,7 +52,6 @@ pub fn param_route_test() {
     |> blazer.get(
       "/users/:id",
       blazer.handler_with_params(fn(_, _, params) {
-        echo params
         let assert Ok(id) = dict.get(params, "id")
         response.new(200) |> response.set_body(id)
       }),

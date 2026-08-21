@@ -3,6 +3,7 @@ import gleam/dict
 import gleam/http
 import gleam/http/request
 import gleam/option
+import gleam/uri
 
 pub type Handler(req, res, ctx) =
   tree.Handler(req, res, ctx)
@@ -28,7 +29,7 @@ pub fn add(
   path: String,
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
-  let root = tree.insert(router.root, tree.split_path(path), method, handler)
+  let root = tree.insert(router.root, uri.path_segments(path), method, handler)
 
   Router(..router, root:)
 }
@@ -40,7 +41,7 @@ pub fn match(
 ) -> option.Option(
   #(Handler(req, res, ctx), option.Option(dict.Dict(String, String))),
 ) {
-  tree.walk(router.root, tree.split_path(path), method, option.None)
+  tree.walk(router.root, uri.path_segments(path), method, option.None)
 }
 
 pub fn consume(
@@ -52,7 +53,7 @@ pub fn consume(
     match(router, req.method, req.path)
     |> option.unwrap(or: #(not_found_handler, option.None))
 
-  handler(req, router.context, params)
+  handler(req, router.context, params |> option.unwrap(or: dict.new()))
 }
 
 pub fn get(

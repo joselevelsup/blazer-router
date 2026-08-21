@@ -1,12 +1,11 @@
 import gleam/dict
 import gleam/http
 import gleam/http/request
-import gleam/list
 import gleam/option
 import gleam/string
 
 pub type Handler(req, res, ctx) =
-  fn(request.Request(req), ctx, option.Option(dict.Dict(String, String))) -> res
+  fn(request.Request(req), ctx, dict.Dict(String, String)) -> res
 
 pub type Node(req, res, ctx) {
   Node(
@@ -87,7 +86,13 @@ pub fn walk(
                     method,
                     option.Some(dict.insert(params, name, segment)),
                   )
-                option.None -> walk(child, rest, method, params)
+                option.None ->
+                  walk(
+                    child,
+                    rest,
+                    method,
+                    option.Some(dict.insert(dict.new(), name, segment)),
+                  )
               }
             }
             option.None -> option.None
@@ -103,10 +108,4 @@ pub fn param_dict(
     0 -> option.None
     _ -> option.Some(d)
   }
-}
-
-pub fn split_path(path: String) -> List(String) {
-  path
-  |> string.split("/")
-  |> list.filter(fn(s) { s != "" })
 }

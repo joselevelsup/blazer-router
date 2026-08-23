@@ -1,0 +1,1404 @@
+===================================================================
+ HTTP Router Benchmark (noise-resistant: interleaved + repeated)
+ Started:      Sat Aug 22 08:40:52 PM EDT 2026
+ Router A:     http://localhost:8080
+ Router B:     http://localhost:8081
+ Reps/combo:   10   Duration/run: 20s   Threads: 4
+ Concurrency levels: 10 50 100 500
+===================================================================
+
+>>> Warming up both servers (15s each, not recorded)...
+>>> Warmup complete.
+
+=== Concurrency 10 — 10 interleaved, randomized-order reps ===
+
+[RAW OUTPUT] Router A (pattern) | concurrency=10 | rep=1
+Running 20s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    71.00us   15.97us   0.93ms   70.56%
+    Req/Sec    26.57k     1.04k   29.05k    68.16%
+  Latency Distribution
+     50%   69.00us
+     75%   80.00us
+     90%   91.00us
+     99%  116.00us
+  2125890 requests in 20.10s, 291.92MB read
+  Non-2xx or 3xx responses: 531809
+Requests/sec: 105766.13
+Transfer/sec:     14.52MB
+  rep 1/10: Router A (pattern) -> 105766.13 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=10 | rep=1
+Running 20s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.51us   16.00us   1.07ms   72.08%
+    Req/Sec    26.75k     1.08k   29.52k    67.66%
+  Latency Distribution
+     50%   69.00us
+     75%   79.00us
+     90%   90.00us
+     99%  115.00us
+  2140489 requests in 20.10s, 276.58MB read
+  Non-2xx or 3xx responses: 535415
+Requests/sec: 106493.33
+Transfer/sec:     13.76MB
+  rep 1/10: Router B (custom) -> 106493.33 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=10 | rep=2
+Running 20s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.56us   16.17us   0.91ms   71.77%
+    Req/Sec    26.77k     1.01k   29.50k    68.03%
+  Latency Distribution
+     50%   69.00us
+     75%   79.00us
+     90%   90.00us
+     99%  115.00us
+  2141701 requests in 20.10s, 276.74MB read
+  Non-2xx or 3xx responses: 535731
+Requests/sec: 106552.99
+Transfer/sec:     13.77MB
+  rep 2/10: Router B (custom) -> 106552.99 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=10 | rep=2
+Running 20s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    71.64us   15.76us 564.00us   72.23%
+    Req/Sec    26.33k     0.97k   28.84k    67.29%
+  Latency Distribution
+     50%   70.00us
+     75%   80.00us
+     90%   92.00us
+     99%  116.00us
+  2106759 requests in 20.10s, 289.30MB read
+  Non-2xx or 3xx responses: 526761
+Requests/sec: 104816.30
+Transfer/sec:     14.39MB
+  rep 2/10: Router A (pattern) -> 104816.30 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=10 | rep=3
+Running 20s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.13us   15.47us   1.06ms   72.21%
+    Req/Sec    26.91k     0.97k   29.29k    68.03%
+  Latency Distribution
+     50%   69.00us
+     75%   78.00us
+     90%   89.00us
+     99%  114.00us
+  2153064 requests in 20.10s, 295.65MB read
+  Non-2xx or 3xx responses: 538598
+Requests/sec: 107119.21
+Transfer/sec:     14.71MB
+  rep 3/10: Router A (pattern) -> 107119.21 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=10 | rep=3
+Running 20s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.12us   16.02us   1.17ms   72.19%
+    Req/Sec    26.92k     0.99k   29.61k    70.52%
+  Latency Distribution
+     50%   69.00us
+     75%   79.00us
+     90%   90.00us
+     99%  114.00us
+  2153773 requests in 20.10s, 278.30MB read
+  Non-2xx or 3xx responses: 538769
+Requests/sec: 107152.96
+Transfer/sec:     13.85MB
+  rep 3/10: Router B (custom) -> 107152.96 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=10 | rep=4
+Running 20s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.47us   15.71us   1.04ms   73.00%
+    Req/Sec    26.80k     1.00k   29.24k    68.53%
+  Latency Distribution
+     50%   69.00us
+     75%   79.00us
+     90%   90.00us
+     99%  115.00us
+  2143664 requests in 20.10s, 294.36MB read
+  Non-2xx or 3xx responses: 536179
+Requests/sec: 106650.49
+Transfer/sec:     14.65MB
+  rep 4/10: Router A (pattern) -> 106650.49 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=10 | rep=4
+Running 20s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.00us   15.87us   0.97ms   71.15%
+    Req/Sec    26.99k     0.96k   29.29k    69.78%
+  Latency Distribution
+     50%   69.00us
+     75%   79.00us
+     90%   89.00us
+     99%  113.00us
+  2158770 requests in 20.10s, 278.94MB read
+  Non-2xx or 3xx responses: 540058
+Requests/sec: 107402.95
+Transfer/sec:     13.88MB
+  rep 4/10: Router B (custom) -> 107402.95 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=10 | rep=5
+Running 20s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    71.33us   40.38us   3.49ms   98.35%
+    Req/Sec    26.81k     1.32k   29.05k    80.72%
+  Latency Distribution
+     50%   69.00us
+     75%   79.00us
+     90%   90.00us
+     99%  118.00us
+  2144108 requests in 20.10s, 294.42MB read
+  Non-2xx or 3xx responses: 536302
+Requests/sec: 106672.47
+Transfer/sec:     14.65MB
+  rep 5/10: Router A (pattern) -> 106672.47 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=10 | rep=5
+Running 20s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    69.90us   16.42us   1.84ms   73.62%
+    Req/Sec    27.05k     0.97k   29.25k    69.28%
+  Latency Distribution
+     50%   68.00us
+     75%   79.00us
+     90%   90.00us
+     99%  114.00us
+  2163963 requests in 20.10s, 279.61MB read
+  Non-2xx or 3xx responses: 541375
+Requests/sec: 107661.01
+Transfer/sec:     13.91MB
+  rep 5/10: Router B (custom) -> 107661.01 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=10 | rep=6
+Running 20s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.01us   16.37us   2.04ms   73.80%
+    Req/Sec    26.98k     0.99k   29.77k    67.29%
+  Latency Distribution
+     50%   69.00us
+     75%   79.00us
+     90%   90.00us
+     99%  113.00us
+  2158633 requests in 20.10s, 278.92MB read
+  Non-2xx or 3xx responses: 540028
+Requests/sec: 107395.05
+Transfer/sec:     13.88MB
+  rep 6/10: Router B (custom) -> 107395.05 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=10 | rep=6
+Running 20s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    69.85us   15.54us   0.88ms   72.27%
+    Req/Sec    27.01k     1.02k   29.77k    68.53%
+  Latency Distribution
+     50%   68.00us
+     75%   78.00us
+     90%   89.00us
+     99%  114.00us
+  2160618 requests in 20.10s, 296.68MB read
+  Non-2xx or 3xx responses: 540567
+Requests/sec: 107496.60
+Transfer/sec:     14.76MB
+  rep 6/10: Router A (pattern) -> 107496.60 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=10 | rep=7
+Running 20s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    69.77us   15.74us 803.00us   70.79%
+    Req/Sec    27.09k     0.95k   29.70k    68.28%
+  Latency Distribution
+     50%   68.00us
+     75%   78.00us
+     90%   89.00us
+     99%  113.00us
+  2167585 requests in 20.10s, 280.08MB read
+  Non-2xx or 3xx responses: 542371
+Requests/sec: 107841.22
+Transfer/sec:     13.93MB
+  rep 7/10: Router B (custom) -> 107841.22 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=10 | rep=7
+Running 20s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.05us   15.72us   1.09ms   71.95%
+    Req/Sec    26.97k     1.01k   29.51k    70.02%
+  Latency Distribution
+     50%   68.00us
+     75%   78.00us
+     90%   89.00us
+     99%  114.00us
+  2157231 requests in 20.10s, 296.22MB read
+  Non-2xx or 3xx responses: 539670
+Requests/sec: 107325.84
+Transfer/sec:     14.74MB
+  rep 7/10: Router A (pattern) -> 107325.84 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=10 | rep=8
+Running 20s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.20us   16.11us   1.08ms   73.02%
+    Req/Sec    26.91k     0.95k   29.17k    69.40%
+  Latency Distribution
+     50%   69.00us
+     75%   78.00us
+     90%   90.00us
+     99%  115.00us
+  2152994 requests in 20.10s, 295.64MB read
+  Non-2xx or 3xx responses: 538564
+Requests/sec: 107114.93
+Transfer/sec:     14.71MB
+  rep 8/10: Router A (pattern) -> 107114.93 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=10 | rep=8
+Running 20s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    69.92us   15.80us   1.35ms   71.10%
+    Req/Sec    27.01k     1.03k   29.70k    68.16%
+  Latency Distribution
+     50%   68.00us
+     75%   79.00us
+     90%   89.00us
+     99%  113.00us
+  2160910 requests in 20.10s, 279.22MB read
+  Non-2xx or 3xx responses: 540611
+Requests/sec: 107511.17
+Transfer/sec:     13.89MB
+  rep 8/10: Router B (custom) -> 107511.17 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=10 | rep=9
+Running 20s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    69.97us   15.56us 663.00us   71.25%
+    Req/Sec    26.96k     1.00k   29.27k    70.15%
+  Latency Distribution
+     50%   68.00us
+     75%   79.00us
+     90%   90.00us
+     99%  113.00us
+  2156767 requests in 20.10s, 278.68MB read
+  Non-2xx or 3xx responses: 539578
+Requests/sec: 107305.05
+Transfer/sec:     13.87MB
+  rep 9/10: Router B (custom) -> 107305.05 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=10 | rep=9
+Running 20s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.51us   16.07us   1.69ms   72.70%
+    Req/Sec    26.79k     1.01k   29.40k    67.79%
+  Latency Distribution
+     50%   69.00us
+     75%   79.00us
+     90%   90.00us
+     99%  115.00us
+  2143553 requests in 20.10s, 294.35MB read
+  Non-2xx or 3xx responses: 536158
+Requests/sec: 106646.30
+Transfer/sec:     14.64MB
+  rep 9/10: Router A (pattern) -> 106646.30 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=10 | rep=10
+Running 20s test @ http://localhost:8080
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    70.09us   16.64us   2.10ms   74.61%
+    Req/Sec    26.97k     0.94k   29.74k    68.28%
+  Latency Distribution
+     50%   68.00us
+     75%   78.00us
+     90%   90.00us
+     99%  115.00us
+  2157103 requests in 20.10s, 296.20MB read
+  Non-2xx or 3xx responses: 539651
+Requests/sec: 107318.97
+Transfer/sec:     14.74MB
+  rep 10/10: Router A (pattern) -> 107318.97 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=10 | rep=10
+Running 20s test @ http://localhost:8081
+  4 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    69.69us   16.23us   1.05ms   72.59%
+    Req/Sec    27.14k     0.95k   29.44k    70.27%
+  Latency Distribution
+     50%   68.00us
+     75%   78.00us
+     90%   89.00us
+     99%  113.00us
+  2171127 requests in 20.10s, 280.53MB read
+  Non-2xx or 3xx responses: 543290
+Requests/sec: 108017.67
+Transfer/sec:     13.96MB
+  rep 10/10: Router B (custom) -> 108017.67 req/sec
+
+=== Concurrency 50 — 10 interleaved, randomized-order reps ===
+
+[RAW OUTPUT] Router B (custom) | concurrency=50 | rep=1
+Running 20s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   259.94us  278.69us  12.66ms   95.68%
+    Req/Sec    39.72k     3.03k   81.28k    80.65%
+  Latency Distribution
+     50%  211.00us
+     75%  279.00us
+     90%  370.00us
+     99%    1.64ms
+  3166104 requests in 20.10s, 409.09MB read
+  Non-2xx or 3xx responses: 792128
+Requests/sec: 157517.10
+Transfer/sec:     20.35MB
+  rep 1/10: Router B (custom) -> 157517.10 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=50 | rep=1
+Running 20s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   260.55us  281.59us   5.91ms   95.80%
+    Req/Sec    39.97k     3.80k   83.67k    77.15%
+  Latency Distribution
+     50%  212.00us
+     75%  273.00us
+     90%  367.00us
+     99%    1.74ms
+  3185186 requests in 20.10s, 437.36MB read
+  Non-2xx or 3xx responses: 796822
+Requests/sec: 158469.00
+Transfer/sec:     21.76MB
+  rep 1/10: Router A (pattern) -> 158469.00 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=50 | rep=2
+Running 20s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   264.35us  306.45us  11.41ms   95.85%
+    Req/Sec    39.84k     2.75k   49.32k    75.62%
+  Latency Distribution
+     50%  210.00us
+     75%  275.00us
+     90%  368.00us
+     99%    1.89ms
+  3170987 requests in 20.01s, 409.72MB read
+  Non-2xx or 3xx responses: 793444
+Requests/sec: 158489.52
+Transfer/sec:     20.48MB
+  rep 2/10: Router B (custom) -> 158489.52 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=50 | rep=2
+Running 20s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   260.84us  274.56us   6.66ms   95.62%
+    Req/Sec    40.09k     3.52k   56.38k    77.12%
+  Latency Distribution
+     50%  213.00us
+     75%  274.00us
+     90%  369.00us
+     99%    1.64ms
+  3191911 requests in 20.00s, 438.27MB read
+  Non-2xx or 3xx responses: 798761
+Requests/sec: 159579.07
+Transfer/sec:     21.91MB
+  rep 2/10: Router A (pattern) -> 159579.07 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=50 | rep=3
+Running 20s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   259.07us  276.38us   6.53ms   95.79%
+    Req/Sec    40.05k     3.99k   53.25k    73.38%
+  Latency Distribution
+     50%  213.00us
+     75%  270.00us
+     90%  366.00us
+     99%    1.66ms
+  3187951 requests in 20.01s, 437.73MB read
+  Non-2xx or 3xx responses: 797624
+Requests/sec: 159342.96
+Transfer/sec:     21.88MB
+  rep 3/10: Router A (pattern) -> 159342.96 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=50 | rep=3
+Running 20s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   261.30us  288.98us   6.57ms   95.74%
+    Req/Sec    40.41k     4.86k   86.90k    68.66%
+  Latency Distribution
+     50%  212.00us
+     75%  265.00us
+     90%  368.00us
+     99%    1.79ms
+  3220630 requests in 20.10s, 416.13MB read
+  Non-2xx or 3xx responses: 805963
+Requests/sec: 160229.87
+Transfer/sec:     20.70MB
+  rep 3/10: Router B (custom) -> 160229.87 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=50 | rep=4
+Running 20s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   264.07us  291.33us   6.82ms   95.79%
+    Req/Sec    39.53k     3.05k   49.99k    74.25%
+  Latency Distribution
+     50%  213.00us
+     75%  276.00us
+     90%  370.00us
+     99%    1.81ms
+  3147275 requests in 20.00s, 432.15MB read
+  Non-2xx or 3xx responses: 787309
+Requests/sec: 157326.83
+Transfer/sec:     21.60MB
+  rep 4/10: Router A (pattern) -> 157326.83 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=50 | rep=4
+Running 20s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   262.54us  286.58us   6.79ms   95.75%
+    Req/Sec    39.66k     3.32k   90.73k    82.02%
+  Latency Distribution
+     50%  212.00us
+     75%  277.00us
+     90%  370.00us
+     99%    1.76ms
+  3160863 requests in 20.10s, 408.42MB read
+  Non-2xx or 3xx responses: 790816
+Requests/sec: 157255.96
+Transfer/sec:     20.32MB
+  rep 4/10: Router B (custom) -> 157255.96 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=50 | rep=5
+Running 20s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   266.69us  298.13us   7.25ms   95.86%
+    Req/Sec    39.40k     2.90k   50.12k    75.00%
+  Latency Distribution
+     50%  214.00us
+     75%  280.00us
+     90%  372.00us
+     99%    1.85ms
+  3136407 requests in 20.00s, 430.66MB read
+  Non-2xx or 3xx responses: 784490
+Requests/sec: 156790.34
+Transfer/sec:     21.53MB
+  rep 5/10: Router A (pattern) -> 156790.34 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=50 | rep=5
+Running 20s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   263.67us  292.15us   6.59ms   95.79%
+    Req/Sec    39.74k     3.70k   80.62k    79.78%
+  Latency Distribution
+     50%  213.00us
+     75%  275.00us
+     90%  370.00us
+     99%    1.83ms
+  3166862 requests in 20.10s, 409.19MB read
+  Non-2xx or 3xx responses: 792403
+Requests/sec: 157556.88
+Transfer/sec:     20.36MB
+  rep 5/10: Router B (custom) -> 157556.88 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=50 | rep=6
+Running 20s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   267.85us  294.92us   8.02ms   95.58%
+    Req/Sec    39.60k     3.36k   85.17k    78.40%
+  Latency Distribution
+     50%  214.00us
+     75%  279.00us
+     90%  377.00us
+     99%    1.84ms
+  3155822 requests in 20.10s, 433.32MB read
+  Non-2xx or 3xx responses: 789547
+Requests/sec: 156999.09
+Transfer/sec:     21.56MB
+  rep 6/10: Router A (pattern) -> 156999.09 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=50 | rep=6
+Running 20s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   269.38us  297.34us   7.67ms   95.55%
+    Req/Sec    39.23k     3.13k   51.71k    75.75%
+  Latency Distribution
+     50%  215.00us
+     75%  280.00us
+     90%  381.00us
+     99%    1.85ms
+  3123138 requests in 20.00s, 403.55MB read
+  Non-2xx or 3xx responses: 781146
+Requests/sec: 156136.09
+Transfer/sec:     20.17MB
+  rep 6/10: Router B (custom) -> 156136.09 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=50 | rep=7
+Running 20s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   263.03us  282.19us   6.54ms   95.67%
+    Req/Sec    39.55k     4.04k   52.91k    75.25%
+  Latency Distribution
+     50%  215.00us
+     75%  272.00us
+     90%  373.00us
+     99%    1.69ms
+  3148040 requests in 20.00s, 406.76MB read
+  Non-2xx or 3xx responses: 787588
+Requests/sec: 157373.52
+Transfer/sec:     20.33MB
+  rep 7/10: Router B (custom) -> 157373.52 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=50 | rep=7
+Running 20s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   265.35us  275.80us   7.47ms   95.51%
+    Req/Sec    39.20k     3.98k   89.74k    78.03%
+  Latency Distribution
+     50%  218.00us
+     75%  278.00us
+     90%  377.00us
+     99%    1.64ms
+  3124108 requests in 20.10s, 428.97MB read
+  Non-2xx or 3xx responses: 781495
+Requests/sec: 155431.66
+Transfer/sec:     21.34MB
+  rep 7/10: Router A (pattern) -> 155431.66 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=50 | rep=8
+Running 20s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   269.44us  297.88us   7.08ms   95.61%
+    Req/Sec    39.10k     2.97k   49.34k    77.62%
+  Latency Distribution
+     50%  216.00us
+     75%  280.00us
+     90%  380.00us
+     99%    1.84ms
+  3112689 requests in 20.00s, 402.20MB read
+  Non-2xx or 3xx responses: 778502
+Requests/sec: 155613.14
+Transfer/sec:     20.11MB
+  rep 8/10: Router B (custom) -> 155613.14 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=50 | rep=8
+Running 20s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   267.79us  289.87us   8.83ms   95.66%
+    Req/Sec    39.04k     3.83k   51.73k    74.38%
+  Latency Distribution
+     50%  217.00us
+     75%  278.00us
+     90%  379.00us
+     99%    1.77ms
+  3107617 requests in 20.00s, 426.70MB read
+  Non-2xx or 3xx responses: 777419
+Requests/sec: 155358.77
+Transfer/sec:     21.33MB
+  rep 8/10: Router A (pattern) -> 155358.77 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=50 | rep=9
+Running 20s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   266.00us  283.91us   7.90ms   95.65%
+    Req/Sec    39.16k     3.39k   89.36k    80.90%
+  Latency Distribution
+     50%  216.00us
+     75%  281.00us
+     90%  376.00us
+     99%    1.74ms
+  3120705 requests in 20.10s, 403.24MB read
+  Non-2xx or 3xx responses: 780490
+Requests/sec: 155261.69
+Transfer/sec:     20.06MB
+  rep 9/10: Router B (custom) -> 155261.69 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=50 | rep=9
+Running 20s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   266.43us  278.35us   6.21ms   95.56%
+    Req/Sec    38.89k     3.00k   65.03k    78.93%
+  Latency Distribution
+     50%  217.00us
+     75%  284.00us
+     90%  378.00us
+     99%    1.66ms
+  3103690 requests in 20.10s, 426.17MB read
+  Non-2xx or 3xx responses: 776280
+Requests/sec: 154405.55
+Transfer/sec:     21.20MB
+  rep 9/10: Router A (pattern) -> 154405.55 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=50 | rep=10
+Running 20s test @ http://localhost:8080
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   268.60us  283.41us   6.60ms   95.46%
+    Req/Sec    38.96k     3.41k   88.41k    78.65%
+  Latency Distribution
+     50%  217.00us
+     75%  284.00us
+     90%  381.00us
+     99%    1.70ms
+  3104904 requests in 20.10s, 426.33MB read
+  Non-2xx or 3xx responses: 776704
+Requests/sec: 154474.11
+Transfer/sec:     21.21MB
+  rep 10/10: Router A (pattern) -> 154474.11 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=50 | rep=10
+Running 20s test @ http://localhost:8081
+  4 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   260.91us  267.14us  11.92ms   95.60%
+    Req/Sec    39.47k     3.43k   73.76k    79.05%
+  Latency Distribution
+     50%  216.00us
+     75%  278.00us
+     90%  371.00us
+     99%    1.57ms
+  3149657 requests in 20.10s, 406.97MB read
+  Non-2xx or 3xx responses: 787881
+Requests/sec: 156695.97
+Transfer/sec:     20.25MB
+  rep 10/10: Router B (custom) -> 156695.97 req/sec
+
+=== Concurrency 100 — 10 interleaved, randomized-order reps ===
+
+[RAW OUTPUT] Router A (pattern) | concurrency=100 | rep=1
+Running 20s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   454.79us  352.29us   9.00ms   91.42%
+    Req/Sec    41.18k     4.17k   50.99k    69.25%
+  Latency Distribution
+     50%  380.00us
+     75%  516.00us
+     90%  748.00us
+     99%    1.98ms
+  3277880 requests in 20.02s, 450.08MB read
+  Non-2xx or 3xx responses: 820254
+Requests/sec: 163740.88
+Transfer/sec:     22.48MB
+  rep 1/10: Router A (pattern) -> 163740.88 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=100 | rep=1
+Running 20s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   458.80us  352.58us   8.26ms   91.06%
+    Req/Sec    40.99k     3.59k   52.91k    70.50%
+  Latency Distribution
+     50%  382.00us
+     75%  523.00us
+     90%  763.00us
+     99%    1.97ms
+  3262844 requests in 20.01s, 421.58MB read
+  Non-2xx or 3xx responses: 816592
+Requests/sec: 163044.97
+Transfer/sec:     21.07MB
+  rep 1/10: Router B (custom) -> 163044.97 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=100 | rep=2
+Running 20s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   455.32us  344.77us   8.42ms   90.97%
+    Req/Sec    40.94k     4.09k   52.31k    67.75%
+  Latency Distribution
+     50%  380.00us
+     75%  522.00us
+     90%  755.00us
+     99%    1.92ms
+  3259220 requests in 20.02s, 447.51MB read
+  Non-2xx or 3xx responses: 815746
+Requests/sec: 162769.44
+Transfer/sec:     22.35MB
+  rep 2/10: Router A (pattern) -> 162769.44 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=100 | rep=2
+Running 20s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   454.37us  349.41us   6.77ms   91.11%
+    Req/Sec    40.48k     3.63k   56.31k    72.38%
+  Latency Distribution
+     50%  372.00us
+     75%  523.00us
+     90%  757.00us
+     99%    1.95ms
+  3222600 requests in 20.02s, 416.39MB read
+  Non-2xx or 3xx responses: 806426
+Requests/sec: 160999.32
+Transfer/sec:     20.80MB
+  rep 2/10: Router B (custom) -> 160999.32 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=100 | rep=3
+Running 20s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   453.65us  352.59us  11.96ms   91.50%
+    Req/Sec    41.70k     4.09k   54.89k    66.62%
+  Latency Distribution
+     50%  382.00us
+     75%  514.00us
+     90%  743.00us
+     99%    1.99ms
+  3320188 requests in 20.01s, 429.00MB read
+  Non-2xx or 3xx responses: 830767
+Requests/sec: 165902.06
+Transfer/sec:     21.44MB
+  rep 3/10: Router B (custom) -> 165902.06 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=100 | rep=3
+Running 20s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   451.86us  341.90us   9.67ms   91.10%
+    Req/Sec    40.62k     3.94k   57.35k    72.25%
+  Latency Distribution
+     50%  376.00us
+     75%  521.00us
+     90%  747.00us
+     99%    1.89ms
+  3233644 requests in 20.01s, 444.00MB read
+  Non-2xx or 3xx responses: 809286
+Requests/sec: 161561.49
+Transfer/sec:     22.18MB
+  rep 3/10: Router A (pattern) -> 161561.49 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=100 | rep=4
+Running 20s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   452.05us  346.21us   8.53ms   91.40%
+    Req/Sec    41.24k     4.80k   53.40k    68.12%
+  Latency Distribution
+     50%  383.00us
+     75%  515.00us
+     90%  739.00us
+     99%    1.93ms
+  3282478 requests in 20.01s, 450.71MB read
+  Non-2xx or 3xx responses: 821410
+Requests/sec: 164024.30
+Transfer/sec:     22.52MB
+  rep 4/10: Router A (pattern) -> 164024.30 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=100 | rep=4
+Running 20s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   455.99us  348.17us   8.16ms   90.88%
+    Req/Sec    40.45k     3.75k   53.89k    72.12%
+  Latency Distribution
+     50%  375.00us
+     75%  527.00us
+     90%  763.00us
+     99%    1.92ms
+  3220411 requests in 20.02s, 416.10MB read
+  Non-2xx or 3xx responses: 805881
+Requests/sec: 160854.13
+Transfer/sec:     20.78MB
+  rep 4/10: Router B (custom) -> 160854.13 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=100 | rep=5
+Running 20s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   461.31us  356.41us   8.24ms   91.16%
+    Req/Sec    40.62k     4.33k   56.95k    69.12%
+  Latency Distribution
+     50%  385.00us
+     75%  525.00us
+     90%  766.00us
+     99%    2.02ms
+  3234003 requests in 20.01s, 444.05MB read
+  Non-2xx or 3xx responses: 809308
+Requests/sec: 161614.15
+Transfer/sec:     22.19MB
+  rep 5/10: Router A (pattern) -> 161614.15 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=100 | rep=5
+Running 20s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   460.11us  350.03us   8.28ms   90.94%
+    Req/Sec    40.99k     3.52k   53.32k    70.62%
+  Latency Distribution
+     50%  383.00us
+     75%  525.00us
+     90%  763.00us
+     99%    1.97ms
+  3263574 requests in 20.02s, 421.67MB read
+  Non-2xx or 3xx responses: 816801
+Requests/sec: 163015.33
+Transfer/sec:     21.06MB
+  rep 5/10: Router B (custom) -> 163015.33 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=100 | rep=6
+Running 20s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   452.30us  348.21us   7.09ms   91.32%
+    Req/Sec    40.82k     4.57k   52.40k    65.50%
+  Latency Distribution
+     50%  378.00us
+     75%  518.00us
+     90%  748.00us
+     99%    1.96ms
+  3250140 requests in 20.02s, 446.27MB read
+  Non-2xx or 3xx responses: 813217
+Requests/sec: 162354.35
+Transfer/sec:     22.29MB
+  rep 6/10: Router A (pattern) -> 162354.35 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=100 | rep=6
+Running 20s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   455.50us  348.30us   9.67ms   91.08%
+    Req/Sec    41.14k     3.85k   53.86k    68.75%
+  Latency Distribution
+     50%  381.00us
+     75%  520.00us
+     90%  755.00us
+     99%    1.94ms
+  3275644 requests in 20.02s, 423.23MB read
+  Non-2xx or 3xx responses: 819790
+Requests/sec: 163644.53
+Transfer/sec:     21.14MB
+  rep 6/10: Router B (custom) -> 163644.53 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=100 | rep=7
+Running 20s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   448.81us  348.67us   7.67ms   91.70%
+    Req/Sec    41.59k     4.55k   53.74k    68.88%
+  Latency Distribution
+     50%  380.00us
+     75%  510.00us
+     90%  730.00us
+     99%    1.97ms
+  3310162 requests in 20.02s, 427.70MB read
+  Non-2xx or 3xx responses: 828249
+Requests/sec: 165312.00
+Transfer/sec:     21.36MB
+  rep 7/10: Router B (custom) -> 165312.00 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=100 | rep=7
+Running 20s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   451.93us  334.48us  12.10ms   90.92%
+    Req/Sec    40.80k     4.02k   52.83k    70.25%
+  Latency Distribution
+     50%  381.00us
+     75%  521.00us
+     90%  742.00us
+     99%    1.86ms
+  3247537 requests in 20.02s, 445.90MB read
+  Non-2xx or 3xx responses: 812741
+Requests/sec: 162254.31
+Transfer/sec:     22.28MB
+  rep 7/10: Router A (pattern) -> 162254.31 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=100 | rep=8
+Running 20s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   452.72us  347.54us   7.88ms   90.95%
+    Req/Sec    41.02k     4.20k   53.36k    66.38%
+  Latency Distribution
+     50%  376.00us
+     75%  519.00us
+     90%  758.00us
+     99%    1.92ms
+  3265530 requests in 20.02s, 421.93MB read
+  Non-2xx or 3xx responses: 817246
+Requests/sec: 163127.21
+Transfer/sec:     21.08MB
+  rep 8/10: Router B (custom) -> 163127.21 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=100 | rep=8
+Running 20s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   443.96us  325.23us   7.34ms   90.63%
+    Req/Sec    40.89k     4.76k   53.16k    67.00%
+  Latency Distribution
+     50%  375.00us
+     75%  516.00us
+     90%  734.00us
+     99%    1.78ms
+  3255032 requests in 20.01s, 446.95MB read
+  Non-2xx or 3xx responses: 814351
+Requests/sec: 162637.70
+Transfer/sec:     22.33MB
+  rep 8/10: Router A (pattern) -> 162637.70 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=100 | rep=9
+Running 20s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   452.80us  350.89us  11.62ms   91.37%
+    Req/Sec    41.05k     4.08k   52.46k    68.25%
+  Latency Distribution
+     50%  377.00us
+     75%  518.00us
+     90%  749.00us
+     99%    1.95ms
+  3268161 requests in 20.02s, 422.27MB read
+  Non-2xx or 3xx responses: 817880
+Requests/sec: 163247.15
+Transfer/sec:     21.09MB
+  rep 9/10: Router B (custom) -> 163247.15 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=100 | rep=9
+Running 20s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   453.43us  344.18us   7.39ms   91.03%
+    Req/Sec    40.65k     4.10k   51.47k    65.00%
+  Latency Distribution
+     50%  378.00us
+     75%  521.00us
+     90%  753.00us
+     99%    1.91ms
+  3236099 requests in 20.02s, 444.34MB read
+  Non-2xx or 3xx responses: 809699
+Requests/sec: 161675.17
+Transfer/sec:     22.20MB
+  rep 9/10: Router A (pattern) -> 161675.17 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=100 | rep=10
+Running 20s test @ http://localhost:8080
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   458.28us  344.82us   7.37ms   90.94%
+    Req/Sec    40.65k     3.62k   52.14k    73.25%
+  Latency Distribution
+     50%  383.00us
+     75%  526.00us
+     90%  757.00us
+     99%    1.92ms
+  3235616 requests in 20.02s, 444.27MB read
+  Non-2xx or 3xx responses: 809809
+Requests/sec: 161658.58
+Transfer/sec:     22.20MB
+  rep 10/10: Router A (pattern) -> 161658.58 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=100 | rep=10
+Running 20s test @ http://localhost:8081
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   451.34us  348.57us   7.67ms   91.48%
+    Req/Sec    40.89k     4.11k   57.08k    72.25%
+  Latency Distribution
+     50%  377.00us
+     75%  517.00us
+     90%  740.00us
+     99%    1.95ms
+  3255313 requests in 20.02s, 420.61MB read
+  Non-2xx or 3xx responses: 814750
+Requests/sec: 162631.37
+Transfer/sec:     21.01MB
+  rep 10/10: Router B (custom) -> 162631.37 req/sec
+
+=== Concurrency 500 — 10 interleaved, randomized-order reps ===
+
+[RAW OUTPUT] Router B (custom) | concurrency=500 | rep=1
+Running 20s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.19ms    1.45ms  42.91ms   81.31%
+    Req/Sec    41.14k     4.55k   54.67k    74.00%
+  Latency Distribution
+     50%    1.75ms
+     75%    2.73ms
+     90%    4.08ms
+     99%    7.15ms
+  3280985 requests in 20.10s, 423.93MB read
+  Non-2xx or 3xx responses: 821104
+Requests/sec: 163265.23
+Transfer/sec:     21.10MB
+  rep 1/10: Router B (custom) -> 163265.23 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=500 | rep=1
+Running 20s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.12ms    1.39ms  47.42ms   81.80%
+    Req/Sec    41.38k     4.59k   56.24k    70.12%
+  Latency Distribution
+     50%    1.71ms
+     75%    2.62ms
+     90%    3.91ms
+     99%    6.85ms
+  3299835 requests in 20.09s, 453.09MB read
+  Non-2xx or 3xx responses: 825709
+Requests/sec: 164277.73
+Transfer/sec:     22.56MB
+  rep 1/10: Router A (pattern) -> 164277.73 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=500 | rep=2
+Running 20s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.20ms    1.47ms  52.26ms   81.46%
+    Req/Sec    40.93k     4.16k   54.61k    69.62%
+  Latency Distribution
+     50%    1.78ms
+     75%    2.75ms
+     90%    4.11ms
+     99%    7.09ms
+  3265067 requests in 20.09s, 421.88MB read
+  Non-2xx or 3xx responses: 816828
+Requests/sec: 162490.45
+Transfer/sec:     21.00MB
+  rep 2/10: Router B (custom) -> 162490.45 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=500 | rep=2
+Running 20s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.12ms    1.36ms  26.10ms   80.73%
+    Req/Sec    41.60k     4.62k   57.68k    67.08%
+  Latency Distribution
+     50%    1.70ms
+     75%    2.64ms
+     90%    3.94ms
+     99%    6.88ms
+  3313922 requests in 20.10s, 455.04MB read
+  Non-2xx or 3xx responses: 829012
+Requests/sec: 164908.51
+Transfer/sec:     22.64MB
+  rep 2/10: Router A (pattern) -> 164908.51 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=500 | rep=3
+Running 20s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.14ms    1.37ms  19.68ms   80.06%
+    Req/Sec    41.80k     4.13k   55.31k    68.00%
+  Latency Distribution
+     50%    1.74ms
+     75%    2.67ms
+     90%    3.98ms
+     99%    6.93ms
+  3334092 requests in 20.09s, 457.80MB read
+  Non-2xx or 3xx responses: 834221
+Requests/sec: 165973.65
+Transfer/sec:     22.79MB
+  rep 3/10: Router A (pattern) -> 165973.65 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=500 | rep=3
+Running 20s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.20ms    1.43ms  42.86ms   80.37%
+    Req/Sec    40.77k     4.28k   56.62k    72.18%
+  Latency Distribution
+     50%    1.79ms
+     75%    2.76ms
+     90%    4.09ms
+     99%    7.05ms
+  3245112 requests in 20.10s, 419.29MB read
+  Non-2xx or 3xx responses: 812083
+Requests/sec: 161462.67
+Transfer/sec:     20.86MB
+  rep 3/10: Router B (custom) -> 161462.67 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=500 | rep=4
+Running 20s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.13ms    1.38ms  32.19ms   80.61%
+    Req/Sec    41.56k     4.78k   56.02k    64.16%
+  Latency Distribution
+     50%    1.72ms
+     75%    2.64ms
+     90%    3.96ms
+     99%    6.93ms
+  3307941 requests in 20.09s, 454.21MB read
+  Non-2xx or 3xx responses: 827702
+Requests/sec: 164633.02
+Transfer/sec:     22.61MB
+  rep 4/10: Router A (pattern) -> 164633.02 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=500 | rep=4
+Running 20s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.18ms    1.44ms  43.41ms   81.27%
+    Req/Sec    40.96k     4.06k   54.52k    65.62%
+  Latency Distribution
+     50%    1.75ms
+     75%    2.71ms
+     90%    4.05ms
+     99%    7.01ms
+  3266953 requests in 20.10s, 422.12MB read
+  Non-2xx or 3xx responses: 817562
+Requests/sec: 162547.86
+Transfer/sec:     21.00MB
+  rep 4/10: Router B (custom) -> 162547.86 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=500 | rep=5
+Running 20s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.17ms    1.39ms  31.43ms   79.82%
+    Req/Sec    41.67k     3.96k   58.66k    72.18%
+  Latency Distribution
+     50%    1.76ms
+     75%    2.71ms
+     90%    4.04ms
+     99%    6.94ms
+  3315292 requests in 20.10s, 455.22MB read
+  Non-2xx or 3xx responses: 829564
+Requests/sec: 164954.84
+Transfer/sec:     22.65MB
+  rep 5/10: Router A (pattern) -> 164954.84 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=500 | rep=5
+Running 20s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.18ms    1.41ms  37.38ms   80.51%
+    Req/Sec    40.70k     4.22k   59.30k    72.06%
+  Latency Distribution
+     50%    1.77ms
+     75%    2.72ms
+     90%    4.04ms
+     99%    7.04ms
+  3239655 requests in 20.10s, 418.59MB read
+  Non-2xx or 3xx responses: 810583
+Requests/sec: 161152.47
+Transfer/sec:     20.82MB
+  rep 5/10: Router B (custom) -> 161152.47 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=500 | rep=6
+Running 20s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.20ms    1.44ms  32.03ms   79.47%
+    Req/Sec    41.34k     4.12k   55.73k    69.38%
+  Latency Distribution
+     50%    1.78ms
+     75%    2.78ms
+     90%    4.16ms
+     99%    7.09ms
+  3296778 requests in 20.09s, 452.67MB read
+  Non-2xx or 3xx responses: 825010
+Requests/sec: 164086.61
+Transfer/sec:     22.53MB
+  rep 6/10: Router A (pattern) -> 164086.61 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=500 | rep=6
+Running 20s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.18ms    1.64ms  79.50ms   86.47%
+    Req/Sec    40.75k     4.97k   53.10k    68.50%
+  Latency Distribution
+     50%    1.74ms
+     75%    2.70ms
+     90%    4.03ms
+     99%    7.07ms
+  3250734 requests in 20.09s, 420.01MB read
+  Non-2xx or 3xx responses: 813587
+Requests/sec: 161773.29
+Transfer/sec:     20.90MB
+  rep 6/10: Router B (custom) -> 161773.29 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=500 | rep=7
+Running 20s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.14ms    1.46ms  53.89ms   82.98%
+    Req/Sec    41.52k     4.45k   54.42k    64.25%
+  Latency Distribution
+     50%    1.72ms
+     75%    2.64ms
+     90%    3.97ms
+     99%    6.94ms
+  3312813 requests in 20.09s, 454.88MB read
+  Non-2xx or 3xx responses: 828925
+Requests/sec: 164867.82
+Transfer/sec:     22.64MB
+  rep 7/10: Router A (pattern) -> 164867.82 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=500 | rep=7
+Running 20s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.17ms    1.46ms  51.01ms   82.01%
+    Req/Sec    41.11k     4.45k   57.29k    68.21%
+  Latency Distribution
+     50%    1.73ms
+     75%    2.69ms
+     90%    4.05ms
+     99%    7.02ms
+  3275390 requests in 20.09s, 423.21MB read
+  Non-2xx or 3xx responses: 819604
+Requests/sec: 163006.76
+Transfer/sec:     21.06MB
+  rep 7/10: Router B (custom) -> 163006.76 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=500 | rep=8
+Running 20s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.13ms    1.42ms  51.04ms   81.89%
+    Req/Sec    41.65k     4.70k   55.82k    69.62%
+  Latency Distribution
+     50%    1.71ms
+     75%    2.65ms
+     90%    3.96ms
+     99%    6.94ms
+  3322294 requests in 20.10s, 456.18MB read
+  Non-2xx or 3xx responses: 831395
+Requests/sec: 165322.15
+Transfer/sec:     22.70MB
+  rep 8/10: Router A (pattern) -> 165322.15 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=500 | rep=8
+Running 20s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.24ms    1.52ms  52.58ms   82.40%
+    Req/Sec    40.62k     3.47k   53.69k    71.38%
+  Latency Distribution
+     50%    1.82ms
+     75%    2.79ms
+     90%    4.14ms
+     99%    7.18ms
+  3240635 requests in 20.09s, 418.71MB read
+  Non-2xx or 3xx responses: 811035
+Requests/sec: 161302.63
+Transfer/sec:     20.84MB
+  rep 8/10: Router B (custom) -> 161302.63 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=500 | rep=9
+Running 20s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.21ms    1.42ms  24.76ms   80.00%
+    Req/Sec    40.84k     3.55k   54.45k    72.00%
+  Latency Distribution
+     50%    1.79ms
+     75%    2.76ms
+     90%    4.11ms
+     99%    7.10ms
+  3257205 requests in 20.09s, 420.85MB read
+  Non-2xx or 3xx responses: 815251
+Requests/sec: 162136.68
+Transfer/sec:     20.95MB
+  rep 9/10: Router B (custom) -> 162136.68 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=500 | rep=9
+Running 20s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.16ms    1.39ms  35.31ms   80.43%
+    Req/Sec    41.48k     3.77k   55.40k    70.12%
+  Latency Distribution
+     50%    1.76ms
+     75%    2.70ms
+     90%    3.99ms
+     99%    6.89ms
+  3308959 requests in 20.09s, 454.35MB read
+  Non-2xx or 3xx responses: 827908
+Requests/sec: 164676.38
+Transfer/sec:     22.61MB
+  rep 9/10: Router A (pattern) -> 164676.38 req/sec
+
+[RAW OUTPUT] Router B (custom) | concurrency=500 | rep=10
+Running 20s test @ http://localhost:8081
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.19ms    1.45ms  59.86ms   81.57%
+    Req/Sec    40.73k     3.75k   52.51k    65.88%
+  Latency Distribution
+     50%    1.77ms
+     75%    2.73ms
+     90%    4.05ms
+     99%    7.01ms
+  3247955 requests in 20.10s, 419.67MB read
+  Non-2xx or 3xx responses: 812638
+Requests/sec: 161591.67
+Transfer/sec:     20.88MB
+  rep 10/10: Router B (custom) -> 161591.67 req/sec
+
+[RAW OUTPUT] Router A (pattern) | concurrency=500 | rep=10
+Running 20s test @ http://localhost:8080
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.11ms    1.34ms  30.66ms   80.39%
+    Req/Sec    41.49k     4.60k   61.02k    66.46%
+  Latency Distribution
+     50%    1.71ms
+     75%    2.62ms
+     90%    3.90ms
+     99%    6.81ms
+  3307358 requests in 20.09s, 454.14MB read
+  Non-2xx or 3xx responses: 827374
+Requests/sec: 164589.71
+Transfer/sec:     22.60MB
+  rep 10/10: Router A (pattern) -> 164589.71 req/sec
+
+===================================================================
+ SUMMARY (per concurrency level, across 10 reps)
+===================================================================
+Router                       Conns  N      Mean       Median     Stdev     Min       Max      
+------------------------------------------------------------------------------------------
+Router A (pattern)           10     10     106692.72  106893.70  828.87    104816.30 107496.60
+Router B (custom)            10     10     107333.34  107399.00  496.86    106493.33 108017.67
+Router A (pattern)           50     10     156817.74  156894.71  1896.85   154405.55 159579.07
+Router B (custom)            50     10     157212.97  157314.74  1443.90   155261.69 160229.87
+Router A (pattern)           100    10     162429.04  162304.33  884.43    161561.49 164024.30
+Router B (custom)            100    10     163177.81  163086.09  1587.78   160854.13 165902.06
+Router A (pattern)           500    10     164829.04  164772.10  532.40    164086.61 165973.65
+Router B (custom)            500    10     162072.97  161954.98  732.73    161152.47 163265.23
+
+===================================================================
+ HEAD-TO-HEAD COMPARISON PER CONCURRENCY LEVEL
+ (rough Welch's-t heuristic: |t| > 2 ~ probably real, else ~ noise)
+===================================================================
+concurrency=10: mean_A=106693.00 mean_B=107333.00 diff=-0.60% t=-2.09 -> B likely faster
+concurrency=50: mean_A=156818.00 mean_B=157213.00 diff=-0.25% t=-0.52 -> no clear difference (within noise)
+concurrency=100: mean_A=162429.00 mean_B=163178.00 diff=-0.46% t=-1.30 -> no clear difference (within noise)
+concurrency=500: mean_A=164829.00 mean_B=162073.00 diff=1.70% t=9.62 -> A likely faster
+
+Full log (including every raw wrk run) saved to: /home/skippy/Documents/personal/simple_http/results_20260822_204052.log

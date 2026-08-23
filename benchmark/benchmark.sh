@@ -202,7 +202,7 @@ for conns in "${CONCURRENCY_LEVELS[@]}"; do
 
     for router in "$first" "$second"; do
       if [[ "$router" == "A" ]]; then
-        label="Router A (pattern match)"
+        label="Router A (fist)"
         url="$ROUTER_A_URL"
       else
         label="Router B (custom)"
@@ -231,7 +231,7 @@ echo "" | tee -a "$LOG_FILE"
 
 for conns in "${CONCURRENCY_LEVELS[@]}"; do
   for router in A B; do
-    label="Router A (pattern match)"
+    label="Router A (fist)"
     [[ "$router" == "B" ]] && label="Router B (custom)"
     key="${router}_${conns}"
     read -r n mean median stdev min max p25 p75 <<< "$(stats_from_values "${RESULTS[$key]}")"

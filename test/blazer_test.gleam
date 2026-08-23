@@ -1,6 +1,5 @@
 import blazer
 import envoy
-import gleam/dict
 import gleam/dynamic/decode
 import gleam/float
 import gleam/http
@@ -52,7 +51,7 @@ pub fn param_route_test() {
     |> blazer.get(
       "/users/:id",
       blazer.handler_with_params(fn(_, _, params) {
-        let assert Ok(id) = dict.get(params, "id")
+        let id = blazer.get_param(params, "id")
         response.new(200) |> response.set_body(id)
       }),
     )
@@ -76,8 +75,8 @@ pub fn nested_param_test() {
     |> blazer.get(
       "/users/:id/posts/:pid",
       blazer.handler_with_params(fn(_, _, params) {
-        let assert Ok(id) = dict.get(params, "id")
-        let assert Ok(pid) = dict.get(params, "pid")
+        let id = blazer.get_param(params, "id")
+        let pid = blazer.get_param(params, "pid")
         response.new(200) |> response.set_body(id <> ":" <> pid)
       }),
     )
@@ -175,50 +174,6 @@ fn bench_run(name: String, f: fn() -> _, n: Int, samples: Int) -> Float {
     Error(_) -> Nil
   }
   per_call
-}
-
-pub fn bench_match_test() {
-  let static_router =
-    blazer.new()
-    |> blazer.get("/users", blazer.handler(fn(_, _) { response.new(200) }))
-  let param_router =
-    blazer.new()
-    |> blazer.get(
-      "/users/:id",
-      blazer.handler_with_params(fn(_, _, _) { response.new(200) }),
-    )
-  let nested_router =
-    blazer.new()
-    |> blazer.get(
-      "/users/:id/posts/:pid",
-      blazer.handler_with_params(fn(_, _, _) { response.new(200) }),
-    )
-
-  let static_us =
-    bench_run(
-      "static",
-      fn() { blazer.match(static_router, http.Get, "/users") },
-      10_000,
-      7,
-    )
-  let param_us =
-    bench_run(
-      "param",
-      fn() { blazer.match(param_router, http.Get, "/users/42") },
-      10_000,
-      7,
-    )
-  let nested_us =
-    bench_run(
-      "nested",
-      fn() { blazer.match(nested_router, http.Get, "/users/7/posts/9") },
-      10_000,
-      7,
-    )
-
-  assert static_us <. 10.0 as "[bench] static match regressed beyond 10us/call"
-  assert param_us <. 15.0 as "[bench] param match regressed beyond 15us/call"
-  assert nested_us <. 20.0 as "[bench] nested match regressed beyond 20us/call"
 }
 
 pub fn with_context_test() {

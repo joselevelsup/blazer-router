@@ -1,8 +1,9 @@
 import blazer/tree
-import gleam/dict
 import gleam/http
 import gleam/http/request
+import gleam/list
 import gleam/option
+import gleam/result
 import gleam/uri
 
 pub type Handler(req, res, ctx) =
@@ -34,32 +35,18 @@ pub fn add(
   Router(..router, root:)
 }
 
-pub fn match(
-  router: Router(req, res, ctx),
-  method: http.Method,
-  path: String,
-) -> option.Option(
-  #(Handler(req, res, ctx), option.Option(dict.Dict(String, String))),
-) {
-  tree.walk(router.root, uri.path_segments(path), method, option.None)
-}
-
 pub fn consume(
   router: Router(req, res, ctx),
   req: request.Request(req),
   not_found_handler: Handler(req, res, ctx),
 ) -> res {
   let #(handler, params) =
-    match(router, req.method, req.path)
+    tree.walk(router.root, uri.path_segments(req.path), req.method, option.None)
     |> option.unwrap(or: #(not_found_handler, option.None))
 
   case handler {
     tree.WithParams(with_params_handler) ->
-      with_params_handler(
-        req,
-        router.context,
-        params |> option.unwrap(or: dict.new()),
-      )
+      with_params_handler(req, router.context, params |> option.unwrap(or: []))
     tree.WithoutParams(without_params_handler) ->
       without_params_handler(req, router.context)
   }
@@ -112,7 +99,11 @@ pub fn handler(
 }
 
 pub fn handler_with_params(
-  handler: fn(request.Request(req), ctx, dict.Dict(String, String)) -> res,
+  handler: fn(request.Request(req), ctx, List(#(String, String))) -> res,
 ) -> Handler(req, res, ctx) {
   tree.WithParams(handler)
+}
+
+pub fn get_param(params: List(#(String, String)), key: String) -> String {
+  list.key_find(params, key) |> result.unwrap(or: "")
 }

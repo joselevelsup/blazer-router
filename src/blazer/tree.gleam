@@ -5,7 +5,7 @@ import gleam/option
 import gleam/string
 
 pub type Handler(req, res, ctx) {
-  WithParams(fn(request.Request(req), ctx, dict.Dict(String, String)) -> res)
+  WithParams(fn(request.Request(req), ctx, List(#(String, String))) -> res)
   WithoutParams(fn(request.Request(req), ctx) -> res)
 }
 
@@ -64,9 +64,9 @@ pub fn walk(
   node: Node(req, res, ctx),
   segments: List(String),
   method: http.Method,
-  params: option.Option(dict.Dict(String, String)),
+  params: option.Option(List(#(String, String))),
 ) -> option.Option(
-  #(Handler(req, res, ctx), option.Option(dict.Dict(String, String))),
+  #(Handler(req, res, ctx), option.Option(List(#(String, String)))),
 ) {
   case segments {
     [] ->
@@ -86,28 +86,14 @@ pub fn walk(
                     child,
                     rest,
                     method,
-                    option.Some(dict.insert(params, name, segment)),
+                    option.Some([#(name, segment), ..params]),
                   )
                 option.None ->
-                  walk(
-                    child,
-                    rest,
-                    method,
-                    option.Some(dict.new() |> dict.insert(name, segment)),
-                  )
+                  walk(child, rest, method, option.Some([#(name, segment)]))
               }
             }
             option.None -> option.None
           }
       }
-  }
-}
-
-pub fn param_dict(
-  d: dict.Dict(String, String),
-) -> option.Option(dict.Dict(String, String)) {
-  case dict.size(d) {
-    0 -> option.None
-    _ -> option.Some(d)
   }
 }

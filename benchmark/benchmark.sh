@@ -12,9 +12,14 @@
 #   SERVER_B_PID   pid of router B's process, for pinning to cores 2,3
 #   SERVER_CPUS    cores to pin the servers to, e.g. "2,3"
 #
+#   CONCURRENCY_LEVELS  optional space-separated subset of the allowed
+#                       levels to run, e.g. "10 50" or "100".
+#                       Defaults to "10 50 100 500".
 #   Example with pinning (Linux only):
 #     WRK_CPUS="0,1" SERVER_CPUS="2,3" SERVER_A_PID=1234 SERVER_B_PID=5678 \
 #       ./benchmark.sh http://localhost:8080 http://localhost:8081
+#   Example: only run concurrency 10 and 50:
+#     CONCURRENCY_LEVELS="10 50" ./benchmark.sh http://localhost:8080 http://localhost:8081
 #
 # REQUIRES: wrk installed and on PATH. paths.lua in the same directory.
 #           taskset (optional, Linux only, for CPU pinning).
@@ -26,7 +31,13 @@ ROUTER_B_URL="${2:-}"
 REPS="${3:-5}"
 DURATION="${4:-20s}"
 THREADS="${5:-4}"
-CONCURRENCY_LEVELS=(10 50 100 500)
+ALLOWED_CONCURRENCY=(10 50 100 500)
+if [[ -n "${CONCURRENCY_LEVELS:-}" ]]; then
+  # Allow override via env var (space-separated subset of the allowed levels).
+  read -ra CONCURRENCY_LEVELS <<< "$CONCURRENCY_LEVELS"
+else
+  CONCURRENCY_LEVELS=("${ALLOWED_CONCURRENCY[@]}")
+fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LUA_SCRIPT="$SCRIPT_DIR/paths.lua"
@@ -48,6 +59,18 @@ if ! command -v wrk >/dev/null 2>&1; then
   echo "Error: wrk is not installed or not on PATH."
   exit 1
 fi
+
+# Validate requested concurrency levels are from the allowed set.
+for lvl in "${CONCURRENCY_LEVELS[@]}"; do
+  ok=0
+  for allowed in "${ALLOWED_CONCURRENCY[@]}"; do
+    if [[ "$lvl" == "$allowed" ]]; then ok=1; break; fi
+  done
+  if [[ "$ok" -ne 1 ]]; then
+    echo "Error: invalid concurrency level '$lvl'. Allowed: ${ALLOWED_CONCURRENCY[*]}"
+    exit 1
+  fi
+done
 
 if [[ ! -f "$LUA_SCRIPT" ]]; then
   echo "Error: paths.lua not found next to this script ($LUA_SCRIPT)."

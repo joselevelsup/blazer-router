@@ -4,10 +4,8 @@ import gleam/http/request
 import gleam/option
 import gleam/string
 
-pub type Handler(req, res, ctx) {
-  WithParams(fn(request.Request(req), ctx, List(#(String, String))) -> res)
-  WithoutParams(fn(request.Request(req), ctx) -> res)
-}
+pub type Handler(req, res, ctx) =
+  fn(request.Request(req), ctx, List(#(String, String))) -> res
 
 pub type Node(req, res, ctx) {
   Node(
@@ -64,10 +62,8 @@ pub fn walk(
   node: Node(req, res, ctx),
   segments: List(String),
   method: http.Method,
-  params: option.Option(List(#(String, String))),
-) -> option.Option(
-  #(Handler(req, res, ctx), option.Option(List(#(String, String)))),
-) {
+  params: List(#(String, String)),
+) -> option.Option(#(Handler(req, res, ctx), List(#(String, String)))) {
   case segments {
     [] ->
       case dict.get(node.handlers, method) {
@@ -81,15 +77,8 @@ pub fn walk(
           case node.param {
             option.Some(#(name, child)) -> {
               case params {
-                option.Some(params) ->
-                  walk(
-                    child,
-                    rest,
-                    method,
-                    option.Some([#(name, segment), ..params]),
-                  )
-                option.None ->
-                  walk(child, rest, method, option.Some([#(name, segment)]))
+                [] -> walk(child, rest, method, [#(name, segment)])
+                _ -> walk(child, rest, method, [#(name, segment), ..params])
               }
             }
             option.None -> option.None

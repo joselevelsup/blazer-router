@@ -25,19 +25,12 @@ fn req(method: http.Method, path: String) -> request.Request(String) {
 pub fn static_route_test() {
   let r =
     blazer.new()
-    |> blazer.get(
-      "/users",
-      blazer.handler(fn(_, _) {
-        response.new(200) |> response.set_body("users")
-      }),
-    )
+    |> blazer.get("/users", fn(_, _, _) {
+      response.new(200) |> response.set_body("users")
+    })
 
   let resp =
-    blazer.consume(
-      r,
-      req(http.Get, "/users"),
-      blazer.handler(fn(_, _) { response.new(404) }),
-    )
+    blazer.consume(r, req(http.Get, "/users"), fn(_, _, _) { response.new(404) })
 
   assert resp.status == 200
     as "[static_route_test] Failed to get 200 from router"
@@ -48,20 +41,15 @@ pub fn static_route_test() {
 pub fn param_route_test() {
   let r =
     blazer.new()
-    |> blazer.get(
-      "/users/:id",
-      blazer.handler_with_params(fn(_, _, params) {
-        let id = blazer.get_param(params, "id")
-        response.new(200) |> response.set_body(id)
-      }),
-    )
+    |> blazer.get("/users/:id", fn(_, _, params) {
+      let id = blazer.get_param(params, "id")
+      response.new(200) |> response.set_body(id)
+    })
 
   let resp =
-    blazer.consume(
-      r,
-      req(http.Get, "/users/42"),
-      blazer.handler(fn(_, _) { response.new(404) }),
-    )
+    blazer.consume(r, req(http.Get, "/users/42"), fn(_, _, _) {
+      response.new(404)
+    })
 
   assert resp.status == 200
     as "[param_route_test] Failed to get 200 from router"
@@ -72,21 +60,16 @@ pub fn param_route_test() {
 pub fn nested_param_test() {
   let r =
     blazer.new()
-    |> blazer.get(
-      "/users/:id/posts/:pid",
-      blazer.handler_with_params(fn(_, _, params) {
-        let id = blazer.get_param(params, "id")
-        let pid = blazer.get_param(params, "pid")
-        response.new(200) |> response.set_body(id <> ":" <> pid)
-      }),
-    )
+    |> blazer.get("/users/:id/posts/:pid", fn(_, _, params) {
+      let id = blazer.get_param(params, "id")
+      let pid = blazer.get_param(params, "pid")
+      response.new(200) |> response.set_body(id <> ":" <> pid)
+    })
 
   let resp =
-    blazer.consume(
-      r,
-      req(http.Get, "/users/7/posts/9"),
-      blazer.handler(fn(_, _) { response.new(404) }),
-    )
+    blazer.consume(r, req(http.Get, "/users/7/posts/9"), fn(_, _, _) {
+      response.new(404)
+    })
   assert resp.body == "7:9"
     as "[nested_param_test] Failed to get nested params in body"
 }
@@ -94,27 +77,21 @@ pub fn nested_param_test() {
 pub fn method_dispatch_test() {
   let r =
     blazer.new()
-    |> blazer.get(
-      "/x",
-      blazer.handler(fn(_, _) { response.new(200) |> response.set_body("get") }),
-    )
-    |> blazer.post(
-      "/x",
-      blazer.handler(fn(_, _) { response.new(200) |> response.set_body("post") }),
-    )
+    |> blazer.get("/x", fn(_, _, _) {
+      response.new(200) |> response.set_body("get")
+    })
+    |> blazer.post("/x", fn(_, _, _) {
+      response.new(200) |> response.set_body("post")
+    })
 
-  assert blazer.consume(
-      r,
-      req(http.Get, "/x"),
-      blazer.handler(fn(_, _) { response.new(404) }),
-    ).body
+  assert blazer.consume(r, req(http.Get, "/x"), fn(_, _, _) {
+      response.new(404)
+    }).body
     == "get"
     as "[method_dispatch_test] Failed to match the method to 'get'"
-  assert blazer.consume(
-      r,
-      req(http.Post, "/x"),
-      blazer.handler(fn(_, _) { response.new(404) }),
-    ).body
+  assert blazer.consume(r, req(http.Post, "/x"), fn(_, _, _) {
+      response.new(404)
+    }).body
     == "post"
     as "[method_dispatch_test] Failed to match the method to 'post'"
 }
@@ -180,40 +157,33 @@ pub fn with_context_test() {
   let ctx = TestContext(user: option.Some(1))
   let r =
     blazer.new_with_context(ctx)
-    |> blazer.get(
-      "/users",
-      blazer.handler(fn(_, ctx: TestContext) {
-        case ctx.user {
-          option.None ->
-            response.new(400)
-            |> response.set_header("Content-Type", "application/json")
-            |> response.set_body(
-              json.object([
-                #("success", json.bool(False)),
-                #("user", json.int(0)),
-              ])
-              |> json.to_string,
-            )
-          option.Some(user) ->
-            response.new(200)
-            |> response.set_header("Content-Type", "application/json")
-            |> response.set_body(
-              json.object([
-                #("success", json.bool(True)),
-                #("user", json.int(user)),
-              ])
-              |> json.to_string,
-            )
-        }
-      }),
-    )
+    |> blazer.get("/users", fn(_, ctx, _) {
+      case ctx.user {
+        option.None ->
+          response.new(400)
+          |> response.set_header("Content-Type", "application/json")
+          |> response.set_body(
+            json.object([
+              #("success", json.bool(False)),
+              #("user", json.int(0)),
+            ])
+            |> json.to_string,
+          )
+        option.Some(user) ->
+          response.new(200)
+          |> response.set_header("Content-Type", "application/json")
+          |> response.set_body(
+            json.object([
+              #("success", json.bool(True)),
+              #("user", json.int(user)),
+            ])
+            |> json.to_string,
+          )
+      }
+    })
 
   let resp =
-    blazer.consume(
-      r,
-      req(http.Get, "/users"),
-      blazer.handler(fn(_, _) { response.new(404) }),
-    )
+    blazer.consume(r, req(http.Get, "/users"), fn(_, _, _) { response.new(404) })
 
   let assert Ok(parsed) =
     json.parse(resp.body, using: {

@@ -4,6 +4,7 @@ import gleam/http/request
 import gleam/list
 import gleam/option
 import gleam/result
+import gleam/string
 import gleam/uri
 
 pub type Handler(req, res, ctx) =
@@ -41,15 +42,10 @@ pub fn consume(
   not_found_handler: Handler(req, res, ctx),
 ) -> res {
   let #(handler, params) =
-    tree.walk(router.root, uri.path_segments(req.path), req.method, option.None)
-    |> option.unwrap(or: #(not_found_handler, option.None))
+    tree.walk(router.root, uri.path_segments(req.path), req.method, [])
+    |> option.unwrap(or: #(not_found_handler, []))
 
-  case handler {
-    tree.WithParams(with_params_handler) ->
-      with_params_handler(req, router.context, params |> option.unwrap(or: []))
-    tree.WithoutParams(without_params_handler) ->
-      without_params_handler(req, router.context)
-  }
+  handler(req, router.context, params)
 }
 
 pub fn get(
@@ -90,18 +86,6 @@ pub fn patch(
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
   add(router, http.Patch, path, handler)
-}
-
-pub fn handler(
-  handler: fn(request.Request(req), ctx) -> res,
-) -> Handler(req, res, ctx) {
-  tree.WithoutParams(handler)
-}
-
-pub fn handler_with_params(
-  handler: fn(request.Request(req), ctx, List(#(String, String))) -> res,
-) -> Handler(req, res, ctx) {
-  tree.WithParams(handler)
 }
 
 pub fn get_param(params: List(#(String, String)), key: String) -> String {

@@ -75,12 +75,8 @@ pub fn walk(
         Ok(child) -> walk(child, rest, method, params)
         Error(_) ->
           case node.param {
-            option.Some(#(name, child)) -> {
-              case params {
-                [] -> walk(child, rest, method, [#(name, segment)])
-                _ -> walk(child, rest, method, [#(name, segment), ..params])
-              }
-            }
+            option.Some(#(name, child)) ->
+              walk(child, rest, method, [#(name, segment), ..params])
             option.None -> option.None
           }
       }

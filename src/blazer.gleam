@@ -5,7 +5,6 @@ import gleam/list
 import gleam/option
 import gleam/result
 import gleam/string
-import gleam/uri
 
 pub type Handler(req, res, ctx) =
   tree.Handler(req, res, ctx)
@@ -25,13 +24,17 @@ pub fn new() -> Router(req, res, Nil) {
   Router(root: tree.empty_node(), context: Nil)
 }
 
+fn parse_path(path: String) -> List(String) {
+  string.split(path, "/") |> list.filter(fn(str) { str != "" })
+}
+
 pub fn add(
   router: Router(req, res, ctx),
   method: http.Method,
   path: String,
   handler: Handler(req, res, ctx),
 ) -> Router(req, res, ctx) {
-  let root = tree.insert(router.root, uri.path_segments(path), method, handler)
+  let root = tree.insert(router.root, parse_path(path), method, handler)
 
   Router(..router, root:)
 }
@@ -42,7 +45,7 @@ pub fn consume(
   not_found_handler: Handler(req, res, ctx),
 ) -> res {
   let #(handler, params) =
-    tree.walk(router.root, uri.path_segments(req.path), req.method, [])
+    tree.walk(router.root, parse_path(req.path), req.method, [])
     |> option.unwrap(or: #(not_found_handler, []))
 
   handler(req, router.context, params)

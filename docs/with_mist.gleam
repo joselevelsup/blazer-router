@@ -20,6 +20,8 @@ pub fn main() -> Nil {
       |> response.set_header("Content-Type", "text/html")
     })
 
+  let assert Ok(_) = blazer_client.generate(router)
+
   let assert Ok(_) =
     fn(req: request.Request(mist.Connection)) -> response.Response(
       mist.ResponseData,

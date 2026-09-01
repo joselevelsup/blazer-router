@@ -1,14 +1,9 @@
 import blazer
-import envoy
 import gleam/dynamic/decode
-import gleam/float
 import gleam/http
 import gleam/http/request
 import gleam/http/response
-import gleam/int
-import gleam/io
 import gleam/json
-import gleam/list
 import gleam/option
 import gleeunit
 
@@ -100,57 +95,8 @@ type TestContext {
   TestContext(user: option.Option(Int))
 }
 
-@external(erlang, "timer", "tc")
-fn tc(f: fn() -> a) -> #(Int, a)
-
 type SuccessResponse(a) {
   SuccessResponse(success: Bool, data: a)
-}
-
-fn loop_n(f: fn() -> _, n: Int) -> Nil {
-  case n {
-    0 -> Nil
-    _ -> {
-      let _ = f()
-      loop_n(f, n - 1)
-    }
-  }
-}
-
-fn time_n(f: fn() -> _, n: Int) -> Int {
-  let #(us, _) = tc(fn() { loop_n(f, n) })
-  us
-}
-
-fn median(samples: List(Int)) -> Int {
-  let sorted = list.sort(samples, by: int.compare)
-  let n = list.length(sorted)
-  let assert Ok(v) = list.drop(sorted, n / 2) |> list.first
-  v
-}
-
-fn bench_run(name: String, f: fn() -> _, n: Int, samples: Int) -> Float {
-  loop_n(f, n)
-  let times =
-    list.repeat(Nil, samples)
-    |> list.map(fn(_) { time_n(f, n) })
-  let per_call = int.to_float(median(times)) /. int.to_float(n)
-  case envoy.get("BENCH") {
-    Ok(_) ->
-      io.println(
-        "[bench] "
-        <> name
-        <> ": "
-        <> float.to_string(per_call)
-        <> " us/call (n="
-        <> int.to_string(n)
-        <> ", samples="
-        <> int.to_string(samples)
-        <> ")",
-      )
-    Error(_) -> Nil
-  }
-  per_call
 }
 
 pub fn with_context_test() {

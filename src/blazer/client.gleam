@@ -6,13 +6,10 @@ import gleam/result
 import gleam/string
 import simplifile
 
-pub type ClientGenerateError =
-  String
-
 pub fn generate(
   router: blazer.Router(req, res, ctx),
   file_path: String,
-) -> Result(Nil, ClientGenerateError) {
+) -> Result(Nil, String) {
   let functions =
     tree.gather(router.root, [], [])
     |> list.map(route_source)

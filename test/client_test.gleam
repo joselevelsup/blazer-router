@@ -38,3 +38,10 @@ pub fn generate_test() {
 
   assert string.contains(gleam_client_code, "http.Post") as "post route missing"
 }
+
+pub fn write_error_test() {
+  let assert Error(message) =
+    client.generate(sample_router(), "test/no_such_dir/sample_client")
+  assert string.contains(message, "Could not write client code")
+  Nil
+}

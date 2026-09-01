@@ -2,26 +2,37 @@ import blazer
 import blazer/tree
 import gleam/http
 import gleam/list
+import gleam/result
 import gleam/string
 import simplifile
 
-/// Generate Gleam client source with one request-builder function per route
-/// in the router. Params become function arguments.
-pub fn generate(router: blazer.Router(req, res, ctx)) -> String {
+pub type ClientGenerateError =
+  String
+
+pub fn generate(
+  router: blazer.Router(req, res, ctx),
+  file_path: String,
+) -> Result(Nil, ClientGenerateError) {
   let functions =
     tree.gather(router.root, [], [])
     |> list.map(route_source)
     |> string.join("\n\n")
 
-  "import gleam/http\nimport gleam/http/request\n\n" <> functions <> "\n"
-}
+  let file_path = case string.ends_with(file_path, ".gleam") {
+    True -> file_path
+    False -> file_path <> ".gleam"
+  }
 
-/// Generate the client source and write it to a file.
-pub fn write(
-  router: blazer.Router(req, res, ctx),
-  path: String,
-) -> Result(Nil, simplifile.FileError) {
-  simplifile.write(path, generate(router))
+  let code =
+    "import gleam/http\nimport gleam/http/request\n\n" <> functions <> "\n"
+
+  simplifile.write(file_path, code)
+  |> result.map_error(fn(err) {
+    "Could not write client code to "
+    <> file_path
+    <> ": "
+    <> simplifile.describe_error(err)
+  })
 }
 
 fn route_source(route: #(List(String), http.Method)) -> String {
@@ -34,7 +45,7 @@ fn route_source(route: #(List(String), http.Method)) -> String {
         True -> Ok(string.drop_start(segment, 1) <> ": String")
         False -> Error(Nil)
       }
-    }),
+    })
   ]
 
   "pub fn "
@@ -56,10 +67,7 @@ fn fn_name(segments: List(String), method: http.Method) -> String {
   let prefix = string.lowercase(http.method_to_string(method))
   case segments {
     [] -> prefix
-    _ ->
-      prefix
-      <> "_"
-      <> string.join(list.map(segments, strip_colon), "_")
+    _ -> prefix <> "_" <> string.join(list.map(segments, strip_colon), "_")
   }
 }
 
@@ -85,14 +93,21 @@ fn path_expr(segments: List(String)) -> String {
         True -> {
           let name = strip_colon(segment)
           let parts = case prev_lit, parts {
-            True, [Lit(content), ..rest] -> [Arg(name), Lit(content <> "/"), ..rest]
+            True, [Lit(content), ..rest] -> [
+              Arg(name),
+              Lit(content <> "/"),
+              ..rest
+            ]
             _, _ -> [Arg(name), Lit("/"), ..parts]
           }
           #(parts, False)
         }
         False -> {
           let parts = case prev_lit, parts {
-            True, [Lit(content), ..rest] -> [Lit(content <> "/" <> segment), ..rest]
+            True, [Lit(content), ..rest] -> [
+              Lit(content <> "/" <> segment),
+              ..rest
+            ]
             _, _ -> [Lit("/" <> segment), ..parts]
           }
           #(parts, True)

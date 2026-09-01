@@ -1,6 +1,7 @@
 import gleam/dict
 import gleam/http
 import gleam/http/request
+import gleam/list
 import gleam/option
 import gleam/string
 
@@ -80,5 +81,27 @@ pub fn walk(
             option.None -> option.None
           }
       }
+  }
+}
+
+pub fn gather(
+  node: Node(req, res, ctx),
+  prefix: List(String),
+  acc: List(#(List(String), http.Method)),
+) -> List(#(List(String), http.Method)) {
+  let here =
+    dict.keys(node.handlers)
+    |> list.map(fn(method) { #(list.reverse(prefix), method) })
+    |> list.append(acc)
+
+  let static_acc =
+    dict.fold(node.static, here, fn(acc, segment, child) {
+      gather(child, [segment, ..prefix], acc)
+    })
+
+  case node.param {
+    option.Some(#(name, child)) ->
+      gather(child, [":" <> name, ..prefix], static_acc)
+    option.None -> static_acc
   }
 }
